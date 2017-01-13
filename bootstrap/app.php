@@ -41,6 +41,12 @@ $app->singleton(
     App\Exceptions\Handler::class
 );
 
+$app->configureMonologUsing(function($logger){
+    $logger->pushHandler(new \Monolog\Handler\RotatingFileHandler(env('LOG_PATH').'.main.log'), 10);
+    return $logger;
+});
+
+
 /*
 |--------------------------------------------------------------------------
 | Return The Application

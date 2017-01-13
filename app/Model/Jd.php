@@ -19,12 +19,15 @@ class Jd extends ModelExtend
      * 定义表
      * @var
      */
-    static protected $table = "mysql";
+    static protected $table = "spider_jd_data";
 
     /**
      * 定义主键名
      * @var
      */
-    static protected $primaryKey = "stock_agent_id";
+    static protected $primaryKey = "data_id";
+
+
+
 
 }
