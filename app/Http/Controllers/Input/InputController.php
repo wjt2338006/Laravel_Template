@@ -34,7 +34,10 @@ class InputController extends Controller
         }
         catch(\Exception $e)
         {
-            return response()->json(["status"=>500,"message"=>Helper::handleException("input error:",$e,true)]);
+            $error =["status"=>500,"message"=>Helper::handleException("input error:",$e,true)];
+
+            Log::error(json_encode($error));
+            return response()->json($error);
         }
 
 

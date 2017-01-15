@@ -2,8 +2,12 @@
 namespace App\Repositories\Input;
 
 use App\Libraries\LogType;
+use App\Libraries\PageType;
+use App\Libraries\SingleType;
 use App\Model\Jd;
 use App\Model\Log;
+use App\Model\OriginPage;
+use App\Model\OriginSingle;
 
 /**
  * User: keith.wang
@@ -16,9 +20,9 @@ class InputMap
     public static function init()
     {
         static::$map = [
-            "pushJdData" => function ($params)
+            "pushJdData" => function ($args)
             {
-                Jd::filter($params, [
+                Jd::filter($args, [
                     "data_name" => "required",
                     "data_price" => "required",
                     "data_detail_url" => "required",
@@ -27,14 +31,16 @@ class InputMap
                     "data_order"
 
                 ]);
-                if (!empty($haveData = Jd::select([":data_jd_id" => $params["data_jd_id"]])["data"]))
+                if (!empty($haveData = Jd::select([":data_jd_id" => $args["data_jd_id"], "first" => true])["data"]))
                 {
-                    $x = new Jd($haveData["data_jd_id"]);
-                    $x->update($params);
+//                    Log::info("旧的数据 update" . $haveData["data_jd_id"]);
+                    $x = new Jd($haveData["data_id"]);
+                    $x->update($args);
                 }
                 else
                 {
-                    Jd::add($params);
+//                    Log::info("新的数据" . $haveData["data_jd_id"]);
+                    Jd::add($args);
                 }
 
                 return ["status" => 200, "message" => "add success!"];
@@ -45,11 +51,61 @@ class InputMap
                     "log_data" => $args["data"],
                     "log_type" => LogType::F_JdLog,
                     "log_created" => time(),
-                    "log_type_second" => LogType::S_JdErrorExplain
+                    "log_type_second" => LogType::S_JdErrorExplain,
+                    'log_error_msg'=> $args["error_msg"]
                 ];
                 Log::add($insert);
                 return ["status" => 200, "message" => "add success!"];
             },
+
+            //整列表页数据
+            "pushJdOriginPage" => function ($args)
+            {
+                $insert = [
+                    "page_url" => $args["page_url"],
+                    "page_type" => PageType::Jd_List,
+                    "page_data" => $args["page_data"],
+                    "created_at" => time(),
+                ];
+                OriginPage::add($insert);
+                return ["status" => 200, "message" => "add success!"];
+            },
+            'pullJdOriginPage' => function($args)
+            {
+                $type = $args["type"];
+                $data = OriginPage::select(["first"=>true,":page_type"=>$type,":consume"=>0]);
+                if(!empty($data["data"]))
+                {
+                    $m = new OriginPage($data["data"]["page_id"]);
+                    $m->update(["consume"=>1]);
+                }
+                return $data;
+            },
+
+
+            //推入单条
+            'pushJdOriginSingle'=>function($args)
+            {
+                $insert=[
+                    "single_type"=>SingleType::Jd_Goods,
+                    "single_other"=>json_encode($args["other"]),
+                    'single_data'=>$args["data"],
+                    'created_at' =>time()
+                    ];
+                $data = OriginSingle::add($insert);
+                return $data;
+            },
+            'pullJdOriginSingle' =>function($args)
+            {
+                $type = $args["type"];
+                $data = OriginSingle::select(["first"=>true,":single_type"=>$type,":consume"=>0]);
+                if(!empty($data["data"]))
+                {
+                    $m = new OriginSingle($data["data"]["single_id"]);
+                    $m->update(["consume"=>1]);
+                }
+                return $data;
+            }
 
 
         ];
