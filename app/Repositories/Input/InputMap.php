@@ -8,6 +8,7 @@ use App\Model\Jd;
 use App\Model\Log;
 use App\Model\OriginPage;
 use App\Model\OriginSingle;
+use App\Model\RequestPool;
 
 /**
  * User: keith.wang
@@ -20,6 +21,8 @@ class InputMap
     public static function init()
     {
         static::$map = [
+
+            //发送分析后的商品数据
             "pushJdData" => function ($args)
             {
                 Jd::filter($args, [
@@ -45,6 +48,7 @@ class InputMap
 
                 return ["status" => 200, "message" => "add success!"];
             },
+            //推入错误信息
             "pushJdErrorExplain" => function ($args)
             {
                 $insert = [
@@ -52,7 +56,7 @@ class InputMap
                     "log_type" => LogType::F_JdLog,
                     "log_created" => time(),
                     "log_type_second" => LogType::S_JdErrorExplain,
-                    'log_error_msg'=> $args["error_msg"]
+                    'log_error_msg' => $args["error_msg"]
                 ];
                 Log::add($insert);
                 return ["status" => 200, "message" => "add success!"];
@@ -70,40 +74,64 @@ class InputMap
                 OriginPage::add($insert);
                 return ["status" => 200, "message" => "add success!"];
             },
-            'pullJdOriginPage' => function($args)
+            //拉取单页信息
+            'pullJdOriginPage' => function ($args)
             {
                 $type = $args["type"];
-                $data = OriginPage::select(["first"=>true,":page_type"=>$type,":consume"=>0]);
-                if(!empty($data["data"]))
+                $data = OriginPage::select(["first" => true, ":page_type" => $type, ":consume" => 0]);
+                if (!empty($data["data"]))
                 {
                     $m = new OriginPage($data["data"]["page_id"]);
-                    $m->update(["consume"=>1]);
+                    $m->update(["consume" => 1]);
                 }
                 return $data;
             },
 
 
             //推入单条
-            'pushJdOriginSingle'=>function($args)
+            'pushJdOriginSingle' => function ($args)
             {
-                $insert=[
-                    "single_type"=>SingleType::Jd_Goods,
-                    "single_other"=>json_encode($args["other"]),
-                    'single_data'=>$args["data"],
-                    'created_at' =>time()
-                    ];
+                $insert = [
+                    "single_type" => SingleType::Jd_Goods,
+                    "single_other" => json_encode($args["other"]),
+                    'single_data' => $args["data"],
+                    'created_at' => time()
+                ];
                 $data = OriginSingle::add($insert);
                 return $data;
             },
-            'pullJdOriginSingle' =>function($args)
+            //拉单条
+            'pullJdOriginSingle' => function ($args)
             {
                 $type = $args["type"];
-                $data = OriginSingle::select(["first"=>true,":single_type"=>$type,":consume"=>0]);
-                if(!empty($data["data"]))
+                $data = OriginSingle::select(["first" => true, ":single_type" => $type, ":consume" => 0]);
+                if (!empty($data["data"]))
                 {
                     $m = new OriginSingle($data["data"]["single_id"]);
-                    $m->update(["consume"=>1]);
+                    $m->update(["consume" => 1]);
                 }
+                return $data;
+            },
+
+            //推送一个url到池子
+            "pushUrl" => function ($args)
+            {
+                /*
+                 * 传入参数
+                 * url
+                 * type
+                 */
+                $insert = [
+                    "re_url" => $args["url"],
+                    "re_type" => $args["type"]
+                ];
+                $data = RequestPool::add($insert);
+                return ["status" => 200, "message" => "add success!"];
+            },
+            "pullUrl" => function ($args)
+            {
+                $type = $args["type"];
+                $data = RequestPool::select(["first" => true, ":re_type" => $type]);
                 return $data;
             }
 
