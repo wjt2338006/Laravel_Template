@@ -1,16 +1,16 @@
 <?php
+namespace App\Http\Controllers\Admin\Auth;
+
+use App\Http\Controllers\Controller;
+
 /**
  * User: keith.wang
- * Date: 17-1-5
+ * Date: 17-1-22
  */
-
-namespace App\Http\Controllers;
-
-
 class IndexController extends Controller
 {
     public function index()
     {
-        return view("index");
+
     }
 }
