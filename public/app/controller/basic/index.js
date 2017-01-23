@@ -8,20 +8,20 @@ var adminApp = angular.module('adminApp', ['ui.router', 'ngMaterial', 'ngAnimate
             name: 'auth',
             url: '/auth',
             controller: 'AuthCtrl',
-            templateUrl: '/app/template/admin/auth/index.html'
+            templateUrl: '/app/template/basic/auth/index.html'
         },
 
         {
             name: 'auth.user',
             url: '/user',
             controller: 'UserCtrl',
-            templateUrl: '/app/template/admin/auth/user.html'
+            templateUrl: '/app/template/basic/auth/user.html'
         },
         {
             name: 'auth.admin',
             url: '/admin',
             controller: 'AdminCtrl',
-            templateUrl: '/app/template/admin/auth/admin.html'
+            templateUrl: '/app/template/basic/auth/admin.html'
         }
     ];
 

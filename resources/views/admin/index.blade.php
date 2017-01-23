@@ -76,7 +76,7 @@
 @section('scripts')
         @parent
 
-        <script src="/app/controller/admin/index.js"></script>
+        <script src="/app/controller/basic/index.js"></script>
 
         <script src="/app/service/header_nav.js"></script>
 

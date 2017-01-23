@@ -2,6 +2,6 @@
 
 @section("content")
     hellow this main page
-    <a href="/Admin">Admin</a>
+    <a href="/Basic">Admin</a>
 @overwrite
 

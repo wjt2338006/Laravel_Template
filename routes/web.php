@@ -12,7 +12,7 @@
 */
 
 Route::get('/', "IndexController@index");
-Route::group(['namespace'=>'Admin','prefix'=>'Admin'],function(){
+Route::group(['namespace'=>'Basic','prefix'=>'Basic'],function(){
     Route::get('/', 'IndexController@index');
 
     Route::group(['namespace'=>'Auth','prefix'=>'Auth'],function(){

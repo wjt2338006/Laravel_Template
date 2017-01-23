@@ -1,5 +1,5 @@
 <?php
-namespace App\Http\Controllers\Admin\Auth;
+namespace App\Http\Controllers\Basic\Auth;
 
 use App\Http\Controllers\Controller;
 
@@ -13,4 +13,5 @@ class IndexController extends Controller
     {
 
     }
+
 }
