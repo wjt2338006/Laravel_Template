@@ -1,0 +1,51 @@
+<md-card>
+    <md-card-title>
+
+            <div layout="row" style="width:100%">
+
+                <div flex="100" >
+                    <select-page sp-obj="selectPage" input-list="inputList" select-list="selectList"></select-page>
+                </div>
+            </div>
+
+
+        <!--<md-table-pagination flex="1" md-page="selectPage.nowPage"  md-limit="pagination.query.limit"-->
+                             <!--md-total="@{{ selectPage.total }}"  md-limit-options="pagination.limitOptions"-->
+                             <!--md-boundary-links="true" md-page-select="true" md-on-paginate="onPagination">-->
+        <!--</md-table-pagination>-->
+
+
+    </md-card-title>
+    <md-card-content>
+        <md-table-container>
+            <table class="ui celled padded table" md-table>
+                <thead md-head md-order="orderByName">
+                <tr md-row >
+                    <th md-column > data_id </th>
+                    <th md-column > data_jd_id </th>
+                    <th md-column > data_name </th>
+                    <th md-column > data_order </th>
+                    <th md-column > data_price </th>
+                    <th md-column > data_seller_name </th>
+                </tr>
+                </thead>
+                <tbody md-body>
+                <tr md-row  ng-repeat="single in selectPage.data ">
+                    <td md-cell ng-bind="single.data_id"></td>
+                    <td md-cell ng-bind="single.data_jd_id"></td>
+                    <td md-cell ng-bind="single.data_name"></td>
+                    <td md-cell ng-bind="single.data_order"></td>
+                    <td md-cell ng-bind="single.data_price"></td>
+                    <td md-cell ng-bind="single.data_seller_name"></td>
+                </tr>
+                </tbody>
+            </table>
+        </md-table-container>
+    </md-card-content>
+</md-card>
+<style>
+    .white-space-no-wrap {
+        white-space: nowrap;
+    }
+
+</style>

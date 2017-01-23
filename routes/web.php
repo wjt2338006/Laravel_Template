@@ -18,4 +18,9 @@ Route::group(['namespace'=>'Basic','prefix'=>'Basic'],function(){
     Route::group(['namespace'=>'Auth','prefix'=>'Auth'],function(){
         Route::get('/', 'IndexController@index');
     });
+
+
+    Route::group(['namespace'=>'Goods','prefix'=>'Goods'],function(){
+        Route::get('/getData', 'GoodsController@getGoodsData');
+    });
 });

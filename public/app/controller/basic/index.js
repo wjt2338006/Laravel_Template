@@ -22,17 +22,23 @@ var adminApp = angular.module('adminApp', ['ui.router', 'ngMaterial', 'ngAnimate
             url: '/admin',
             controller: 'AdminCtrl',
             templateUrl: '/app/template/basic/auth/admin.html'
+        },
+        {
+            name: 'goods',
+            url: '/goods',
+            controller: 'GoodsIndexCtrl',
+            templateUrl: '/app/template/basic/goods/index.html'
         }
     ];
 
     for (var i in first) {
-        console.log(first[i]);
+        // console.log(first[i]);
         $stateProvider.state(first[i]);
     }
 
 });
 
-adminApp.controller("IndexCtrl", function ($scope, $mdSidenav,HeaderNav) {
+adminApp.controller("IndexCtrl", function ($scope, $mdSidenav,HeaderNav,$http) {
     $scope.welcome = "hellow";
 
     $scope.toggleLeft = function () {
@@ -63,6 +69,9 @@ adminApp.controller("IndexCtrl", function ($scope, $mdSidenav,HeaderNav) {
 
 
 });
+
+
+
 adminApp.controller("AuthCtrl", function ($scope, $mdSidenav) {
 
     $scope.welcome = "this is Auth";

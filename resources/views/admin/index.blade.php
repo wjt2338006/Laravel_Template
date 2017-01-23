@@ -77,7 +77,9 @@
         @parent
 
         <script src="/app/controller/basic/index.js"></script>
-
+        <script src="/app/controller/basic/goods.js"></script>
         <script src="/app/service/header_nav.js"></script>
+        <script src="/app/service/SelectPageService.js"></script>
+        <script src="/app/directives/SelectPageDirectives.js"></script>
 
 @append

@@ -16,6 +16,7 @@
     @section('scripts')
         @include("lib.jquery")
         @include("lib.angular_js")
+        @include("lib.semantic")
     @show
 </body>
 </html>
