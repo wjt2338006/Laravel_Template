@@ -28,6 +28,12 @@ var adminApp = angular.module('adminApp', ['ui.router', 'ngMaterial', 'ngAnimate
             url: '/goods',
             controller: 'GoodsIndexCtrl',
             templateUrl: '/app/template/basic/goods/index.html'
+        },
+        {
+            name: 'goods.detail',
+            url: '/goods_detail/:id',
+            controller: 'GoodsDetailCtrl',
+            templateUrl: '/app/template/basic/goods/detail.html'
         }
     ];
 
@@ -65,6 +71,8 @@ adminApp.controller("IndexCtrl", function ($scope, $mdSidenav,HeaderNav,$http) {
         ];
     HeaderNav.flush(nav_list);
     $scope.headerNav = HeaderNav;
+
+
 
 
 

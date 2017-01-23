@@ -1,7 +1,7 @@
 /**
  * Created by keith on 17-1-23.
  */
-adminApp.controller("GoodsIndexCtrl", function ($scope,$http,SelectPage) {
+adminApp.controller("GoodsIndexCtrl", function ($scope,$http,SelectPage,$state) {
 
     var url= "/Basic/Goods/getData";
     $scope.result = {};
@@ -30,5 +30,23 @@ adminApp.controller("GoodsIndexCtrl", function ($scope,$http,SelectPage) {
     };
 
 
+    $scope.toGoodsDetail = function(id)
+    {
+        $scope.isDetail = true;
+        $state.go('.detail',{id:id});
+    };
+
+    $scope.isDetail = false;
+
+
+});
+adminApp.controller("GoodsDetailCtrl", function ($scope,$http,SelectPage,$stateParams,$state) {
+    console.log($stateParams.id);
+
+    $scope.toList = function(){
+        $scope.isDetail = false;
+        $state.go('goods');
+
+    }
 
 });

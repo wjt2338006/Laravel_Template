@@ -1,4 +1,4 @@
-<md-card>
+<md-card ng-if="!isDetail">
     <md-card-title>
 
             <div layout="row" style="width:100%">
@@ -21,12 +21,13 @@
             <table class="ui celled padded table" md-table>
                 <thead md-head md-order="orderByName">
                 <tr md-row >
-                    <th md-column > data_id </th>
-                    <th md-column > data_jd_id </th>
-                    <th md-column > data_name </th>
-                    <th md-column > data_order </th>
-                    <th md-column > data_price </th>
-                    <th md-column > data_seller_name </th>
+                    <th md-column >ID</th>
+                    <th md-column > 京东ID </th>
+                    <th md-column > 商品名字 </th>
+                    <th md-column > 订单 </th>
+                    <th md-column > 价格 </th>
+                    <th md-column > 售卖者 </th>
+                    <th md-column > 操作 </th>
                 </tr>
                 </thead>
                 <tbody md-body>
@@ -37,11 +38,21 @@
                     <td md-cell ng-bind="single.data_order"></td>
                     <td md-cell ng-bind="single.data_price"></td>
                     <td md-cell ng-bind="single.data_seller_name"></td>
+                    <td md-cell >
+                        <button class="ui icon button" ng-click="toGoodsDetail(single.data_id)">
+                            <i class="write icon"></i>
+                        </button>
+
+                    </td>
                 </tr>
                 </tbody>
             </table>
         </md-table-container>
     </md-card-content>
+</md-card>
+<md-card ng-if="isDetail">
+    dasdsdadasd
+    <ui-view></ui-view>
 </md-card>
 <style>
     .white-space-no-wrap {
