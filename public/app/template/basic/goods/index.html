@@ -1,8 +1,8 @@
-<md-card ng-if="!isDetail">
+<md-card >
     <md-card-title>
 
             <div layout="row" style="width:100%">
-
+                <md-button class="md-primary">Click me</md-button>
                 <div flex="100" >
                     <select-page sp-obj="selectPage" input-list="inputList" select-list="selectList"></select-page>
                 </div>
@@ -16,8 +16,9 @@
 
 
     </md-card-title>
-    <md-card-content>
-        <md-table-container>
+    <md-card-content >
+        <loading-man onload="onload"></loading-man>
+        <md-table-container ng-if="onload">
             <table class="ui celled padded table" md-table>
                 <thead md-head md-order="orderByName">
                 <tr md-row >
@@ -48,15 +49,7 @@
                 </tbody>
             </table>
         </md-table-container>
+
     </md-card-content>
 </md-card>
-<md-card ng-if="isDetail">
-    dasdsdadasd
-    <ui-view></ui-view>
-</md-card>
-<style>
-    .white-space-no-wrap {
-        white-space: nowrap;
-    }
 
-</style>

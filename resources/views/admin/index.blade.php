@@ -11,8 +11,9 @@
 
                     <md-toolbar class="md-theme-indigo">
                         <h1 class="md-toolbar-tools">功能
-                            <md-button class="md-icon-button" aria-label="More"  ng-click="toggleLeft()"style="margin-left: 10px" >
-                                <md-icon md-svg-icon="/img/back.svg" ></md-icon>
+                            <md-button class="md-icon-button" aria-label="More" ng-click="toggleLeft()"
+                                       style="margin-left: 10px">
+                                <md-icon md-svg-icon="/img/back.svg"></md-icon>
                             </md-button>
 
                         </h1>
@@ -39,23 +40,35 @@
                         <div>
 
                             <h2 class="md-toolbar-tools">Admin 主页
-                                <md-button class="md-icon-button" aria-label="More"  ng-click="toggleLeft()" style="margin-left: 10px" >
-                                    <md-icon md-svg-icon="/img/menu.svg" ></md-icon>
-                                </md-button>
-                                <md-button class="md-icon-button" aria-label="More"  ng-click="toggleLeft()" >
-                                    <md-icon md-svg-icon="/img/back.svg" ></md-icon>
-                                </md-button>
+
+                                <button class="circular ui icon button" ng-click="toggleLeft()"
+                                        style="margin-left: 15px">
+                                    <i class="list icon"></i>
+                                </button>
+                                <button class="circular ui icon button" ng-click="toggleLeft()">
+                                    <i class="reply icon"></i>
+                                </button>
+                                <div class="ui breadcrumb" style="margin-left: 15px">
+                                    <a class="section">Home</a>
+                                    <i class="right angle icon divider"></i>
+                                    <a class="section">Store</a>
+                                    <i class="right angle icon divider"></i>
+                                    <div class="active section">T-Shirt</div>
+                                </div>
+
+
                             </h2>
-                            <md-menu-bar>
+
+                            <md-menu-bar layout="row">
 
 
-                                <md-button  ng-repeat="single in headerNav.navList" ui-sref="@{{ single.url }}">
+                                <md-button ng-repeat="single in headerNav.navList" ui-sref="@{{ single.url }}">
                                     @{{ single.name }}
                                 </md-button>
 
+
                             </md-menu-bar>
                         </div>
-
 
 
                     </div>
@@ -66,20 +79,24 @@
         <md-content flex="100" layout-padding ui-view>
 
 
-
         </md-content>
-        
+
     </div>
 
 @overwrite
 
 @section('scripts')
-        @parent
+    @parent
 
-        <script src="/app/controller/basic/index.js"></script>
-        <script src="/app/controller/basic/goods.js"></script>
-        <script src="/app/service/header_nav.js"></script>
-        <script src="/app/service/SelectPageService.js"></script>
-        <script src="/app/directives/SelectPageDirectives.js"></script>
+    <script src="/app/controller/basic/index.js"></script>
+    <script src="/app/controller/basic/goods.js"></script>
+    <script src="/app/service/header_nav.js"></script>
+    <script src="/app/service/SelectPageService.js"></script>
+
+
+    <script src="/app/directives/SelectPageDirectives.js"></script>
+    <script src="/app/directives/LoadingMan.js"></script>
+
+
 
 @append

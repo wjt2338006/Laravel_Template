@@ -5,7 +5,13 @@ adminApp.directive('selectPage', function () {
 
     return {
         restrict: "EA",
-        scope: true,
+        scope: {
+
+            spObj:"=spObj",
+            selectList:"=selectList",
+            inputList:"=inputList"
+
+        },
         templateUrl: "/app/directives/SelectPage.html",
         controller: function ($scope) {
             $scope.PageClass = function (selectPage) {

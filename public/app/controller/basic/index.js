@@ -2,7 +2,7 @@
  * Created by keith on 17-1-5.
  */
 
-var adminApp = angular.module('adminApp', ['ui.router', 'ngMaterial', 'ngAnimate']).config(function ($stateProvider) {
+var adminApp = angular.module('adminApp', ['ui.router', 'ngMaterial', 'ngAnimate']).config(function ($stateProvider,$mdThemingProvider) {
     var first = [
         {
             name: 'auth',
@@ -30,7 +30,7 @@ var adminApp = angular.module('adminApp', ['ui.router', 'ngMaterial', 'ngAnimate
             templateUrl: '/app/template/basic/goods/index.html'
         },
         {
-            name: 'goods.detail',
+            name: 'goods_detail',
             url: '/goods_detail/:id',
             controller: 'GoodsDetailCtrl',
             templateUrl: '/app/template/basic/goods/detail.html'
@@ -42,6 +42,7 @@ var adminApp = angular.module('adminApp', ['ui.router', 'ngMaterial', 'ngAnimate
         $stateProvider.state(first[i]);
     }
 
+    $mdThemingProvider.theme('default').primaryPalette('teal').accentPalette('brown');
 });
 
 adminApp.controller("IndexCtrl", function ($scope, $mdSidenav,HeaderNav,$http) {

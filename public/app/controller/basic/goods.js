@@ -3,6 +3,9 @@
  */
 adminApp.controller("GoodsIndexCtrl", function ($scope,$http,SelectPage,$state) {
 
+    //noinspection JSUnresolvedFunction
+
+    $scope.onload = false;
     var url= "/Basic/Goods/getData";
     $scope.result = {};
     // $scope.get = function(){
@@ -17,7 +20,9 @@ adminApp.controller("GoodsIndexCtrl", function ($scope,$http,SelectPage,$state) 
     $scope.selectPage.getDataUrl = url;
     $scope.selectPage.getDataMethod = "GET";
     $scope.selectPage.getData();
-
+    $scope.selectPage.successCallback = function (response) {
+        $scope.onload = true;
+    };
 
     $scope.selectList = {
         "status": [
@@ -33,7 +38,7 @@ adminApp.controller("GoodsIndexCtrl", function ($scope,$http,SelectPage,$state) 
     $scope.toGoodsDetail = function(id)
     {
         $scope.isDetail = true;
-        $state.go('.detail',{id:id});
+        $state.go('^.goods_detail',{id:id});
     };
 
     $scope.isDetail = false;
