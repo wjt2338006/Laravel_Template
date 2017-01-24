@@ -2,24 +2,24 @@
 
 <div class="ui left action input mini">
     <div class="ui  action labeled input ">
-        <input type="text" placeholder="start" ng-model="page.selectPage.limit.start"  style="width: 50px">
+        <input type="text" placeholder="start" ng-model="page.limit.start"  style="width: 50px">
         <div class="ui label">
             +
         </div>
-        <input type="text" placeholder="num" ng-model="page.selectPage.limit.num" style="width: 50px">
+        <input type="text" placeholder="num" ng-model="page.limit.num" style="width: 50px">
 
 
 
-        <input type="text" placeholder="{{i_v}}" ng-repeat="(i_k,i_v) in  page.inputList" ng-model="page.selectPage.limit[i_k]">
+        <input type="text" placeholder="{{i_v}}" ng-repeat="(i_k,i_v) in  page.inputList" ng-model="page.limit[i_k]">
 
 
         <select class="ui compact selection dropdown" ng-repeat="(s_k,select) in page.selectList"
             ng-options="v.key as v.value for v in select"
-                ng-model="page.selectPage.limit[s_k]"
+                ng-model="page.limit[s_k]"
         >
         </select>
 
-        <button class="ui teal right labeled icon button" ng-click="page.selectPage.getData()">
+        <button class="ui teal right labeled icon button" ng-click="page.getData()">
             <i class="search icon"></i>
             Search
         </button>

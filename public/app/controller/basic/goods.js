@@ -6,7 +6,7 @@ adminApp.controller("GoodsIndexCtrl", function ($scope,$http,SelectPage,$state) 
     //noinspection JSUnresolvedFunction
 
     $scope.onload = false;
-    var url= "/Basic/Goods/getData";
+
     $scope.result = {};
     // $scope.get = function(){
     //     $http.post(url,null).then(function(result){
@@ -17,7 +17,7 @@ adminApp.controller("GoodsIndexCtrl", function ($scope,$http,SelectPage,$state) 
 
     $scope.selectPage = SelectPage;
     $scope.selectPage.limit = {start: 0, num: 10, desc: true,status:''};
-    $scope.selectPage.getDataUrl = url;
+    $scope.selectPage.getDataUrl =  "/Basic/Goods/getData";
     $scope.selectPage.getDataMethod = "GET";
     $scope.selectPage.getData();
     $scope.selectPage.successCallback = function (response) {
@@ -40,8 +40,6 @@ adminApp.controller("GoodsIndexCtrl", function ($scope,$http,SelectPage,$state) 
         $scope.isDetail = true;
         $state.go('^.goods_detail',{id:id});
     };
-
-    $scope.isDetail = false;
 
 
 });

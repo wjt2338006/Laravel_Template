@@ -7,16 +7,19 @@ adminApp.directive('selectPage', function () {
         restrict: "EA",
         scope: {
 
-            spObj:"=spObj",
-            selectList:"=selectList",
-            inputList:"=inputList"
+            limit:"=",
+            getData:"&",
+            selectList:"=",
+            inputList:"="
 
         },
         templateUrl: "/app/directives/SelectPage.html",
         controller: function ($scope) {
-            $scope.PageClass = function (selectPage) {
+            $scope.PageClass = function (limit,getData) {
                 var self = {};
-                self.selectPage = selectPage;
+                self.limit = limit;
+                self.getData = getData;
+                // self.selectPage = selectPage;
                 self.setInputList = function(list)
                 {
 
@@ -41,33 +44,15 @@ adminApp.directive('selectPage', function () {
                     self.selectList = list;
                 };
 
-
-
-
-
-                // self.selectPage.limit = {};
-                // self.selectPage.limit.name = '';
                 return self;
             }
         },
         link: function ($scope, element, attrs) {
 
-            /*
-            參數
-             sp-obj  => spObj selectPage实例
-             input-list => 可输入框列表
-             select-list => 下拉列表
+            $scope.page = $scope.PageClass($scope.limit,$scope.$eval($scope.getData));
 
-             */
-            var selectPage =$scope.$eval(attrs.spObj);
-            var selectList =$scope.$eval(attrs.selectList);
-            var inputList =$scope.$eval(attrs.inputList);
-
-            console.log(selectPage)
-            $scope.page = $scope.PageClass(selectPage);
-
-            $scope.page.setInputList(inputList);
-            $scope.page.setSelectList(selectList);
+            $scope.page.setInputList($scope.inputList);
+            $scope.page.setSelectList($scope.selectList);
 
         }
     }
