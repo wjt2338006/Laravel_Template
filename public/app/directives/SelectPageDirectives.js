@@ -53,7 +53,7 @@ adminApp.directive('selectPage', function () {
 
             $scope.page.setInputList($scope.inputList);
             $scope.page.setSelectList($scope.selectList);
-
+            console.log($scope)
         }
     }
 });

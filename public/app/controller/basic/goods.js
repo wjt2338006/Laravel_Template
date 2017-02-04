@@ -27,11 +27,14 @@ adminApp.controller("GoodsIndexCtrl", function ($scope,$http,SelectPage,$state) 
     $scope.selectList = {
         "status": [
             {key: "", value: "选择所有状态"},
-            {key: "key", value: "买了"}
-        ]
+            {key: "key", value: "买了"},
+            {key:"ss",value:"12132"}
+        ],
+        "ssss":[{key:"",value:"所有人"}]
     };
     $scope.inputList = {
-        "data_name":"按名称搜索"
+        "data_name":"按名称搜索",
+        "data_id":"请输入id"
     };
 
 
