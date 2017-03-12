@@ -11,9 +11,9 @@ use App\Libraries\Tools\ModelExtend\ModelExtend;
 
 class MysqlStore implements DataStore
 {
-    static $groupCon = "spider.permission_group.group_id";
-    static $reCon = "spider.permission_group_re_power.re_permission_id";
-    static $permitCon = "spider.permission.permission_id";
+    static $groupCon = "basic.permission_group.group_id";
+    static $reCon = "basic.permission_group_re_power.re_permission_id";
+    static $permitCon = "basic.permission.permission_id";
 
     public static function getGroup($id = null)
     {
@@ -22,8 +22,8 @@ class MysqlStore implements DataStore
 
                 "permit",
                 "group_id",
-                "spider.permission_group_re_power.re_group_id",
-                ["link" => [null, "re_permission_id", "spider.permission.permission_id"]]
+                "basic.permission_group_re_power.re_group_id",
+                ["link" => [null, "re_permission_id", "basic.permission.permission_id"]]
             ]
 
         ];

@@ -55,7 +55,7 @@ adminApp
                     //    url += $scope.limit[i] ;//+ "&";
                     //
                     //};
-                    var url = $scope.getDataUrl + "?limit=" + JSON.stringify($limit);
+                    var url = $scope.getDataUrl + "?params=" + JSON.stringify($limit);
                     var promise = $http.get(url);
                 }
                 if ($scope.getDataMethod == "POST") {

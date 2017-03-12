@@ -65,6 +65,19 @@ return [
             'strict' => true,
             'engine' => null,
         ],
+        'basic' => [
+            'driver' => 'mysql',
+            'host' => env('DB_BASIC_HOST', 'localhost'),
+            'port' => env('DB_BASIC_PORT', '3306'),
+            'database' => env('DB_BASIC_DATABASE', 'forge'),
+            'username' => env('DB_BASIC_USERNAME', 'forge'),
+            'password' => env('DB_BASIC_PASSWORD', ''),
+            'charset' => 'utf8',
+            'collation' => 'utf8_unicode_ci',
+            'prefix' => '',
+            'strict' => true,
+            'engine' => null,
+        ],
 
         'pgsql' => [
             'driver' => 'pgsql',

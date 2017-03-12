@@ -1,0 +1,73 @@
+<md-card >
+    <md-card-title>
+
+        <div layout="row" style="width:100%">
+            <md-button class="md-primary">Click me</md-button>
+            <div flex="100" >
+                <select-page limit="selectPage.limit" get-data="selectPage.getData" input-list="inputList" select-list="selectList"></select-page>
+            </div>
+        </div>
+
+        <button class="ui teal basic button tiny" ng-click="toggleAddModal('show')">Add</button>
+    </md-card-title>
+    <md-card-content >
+        <loading-man onload="onload"></loading-man>
+        <md-table-container ng-if="onload">
+            <table class="ui celled padded table" md-table>
+                <thead md-head md-order="orderByName">
+                <tr md-row >
+                    <th md-column >ID</th>
+                    <th md-column > 性别</th>
+                    <th md-column > 年龄</th>
+                    <th md-column > 出生日期 </th>
+                    <th md-column > 身份证号 </th>
+                    <th md-column > 职位 </th>
+                    <th md-column > 基础工资 </th>
+                    <th md-column > 操作 </th>
+                </tr>
+                </thead>
+                <tbody md-body>
+                <tr md-row  ng-repeat="single in selectPage.data ">
+                    <td md-cell ng-bind="single.staff_id"></td>
+                    <td md-cell ng-bind="single.staff_sex"></td>
+                    <td md-cell ng-bind="single.staff_age"></td>
+                    <td md-cell ng-bind="single.staff_birth"></td>
+                    <td md-cell ng-bind="single.staff_cid"></td>
+                    <td md-cell ng-bind="single.staff_position"></td>
+                    <td md-cell ng-bind="single.staff_basic_price"></td>
+                    <td md-cell >
+                        <button class="ui icon button" ng-click="toGoodsDetail(single.staff_id)">
+                            <i class="write icon"></i>
+                        </button>
+
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </md-table-container>
+
+    </md-card-content>
+
+    <div class="ui modal">
+        <i class="close icon"></i>
+        <div class="header">
+            添加新员工
+        </div>
+        <div class="image content">
+            <div class="ui labeled input">
+                <div class="ui label">员工姓名 </div>
+                <input type="text" placeholder="必填" ng-model="tmp_staff_name">
+            </div>
+        </div>
+        <div class="actions">
+            <div class="ui black deny button" ng-click="toggleAddModal('hide')">
+                取消
+            </div>
+            <div class="ui positive right labeled icon button" ng-click="addStaff(tmp_staff_name)">
+                提交
+                <i class="checkmark icon"></i>
+            </div>
+        </div>
+    </div>
+</md-card>
+

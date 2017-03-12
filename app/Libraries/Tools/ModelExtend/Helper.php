@@ -6,7 +6,6 @@
 
 namespace App\Libraries\Tools\ModelExtend;
 
-
 use Illuminate\Support\Facades\Validator;
 
 class Helper

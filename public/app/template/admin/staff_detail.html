@@ -1,0 +1,82 @@
+<div class="ui form">
+
+    <h4 class="ui dividing header">Shipping Information</h4>
+
+    <div class="fields">
+        <div class="five wide field">
+            <label>名字</label>
+            <input type="text" ng-model="staffData.staff_name" placeholder="名字">
+        </div>
+        <div class="four wide field">
+            <label>出生</label>
+            <input type="date"   ng-model="staffData.staff_birth">
+        </div>
+        <div class="four wide field">
+            <label>性别</label>
+            <select class="ui fluid search dropdown" ng-model="staffData.staff_sex">
+                <option value="男">男</option>
+                <option value="女">女</option>
+            </select>
+        </div>
+        <div class="three wide field">
+            <label>职位</label>
+            <div class="one fields">
+                <select class="ui compact selection dropdown"
+                        ng-options="v.position_id as v.position_name for v in position"
+                        ng-model="staffData.staff_position"
+                >
+                </select>
+            </div>
+        </div>
+
+    </div>
+    <div class="fields">
+        <div class="five wide field">
+            <label>身份证号</label>
+            <input type="text"   ng-model="staffData.staff_cid">
+        </div>
+        <div class="four wide field">
+            <label>基础工资</label>
+            <input type="text"   ng-model="staffData.staff_basic_price">
+        </div>
+
+        <div class="seven wide field">
+            <label> 操作 </label>
+            <button class="ui teal basic button tiny" ng-click="submit()">更新相关信息</button>
+            <button class="ui teal basic button tiny" ng-click="toggleCalModal('show')">计算绩效信息</button>
+        </div>
+    </div>
+</div>
+
+<div class="ui modal">
+    <i class="close icon"></i>
+    <div class="header">
+        员工绩效计算
+    </div>
+    <div class="image content">
+        <div class="ui form">
+            <div class="fields" ng-repeat="(k,i) in staffData.items">
+                <div class="field">
+                    <label >绩效 {{i.item_name}} | 绩效标准 {{i.item_price}}</label>
+                    <input type="text"  placeholder="填写考核百分比" ng-model="tmp_item[i.item_id]">
+                </div>
+
+            </div>
+            <!--<div class="fields ">-->
+                <!--<h4>最终 {{total}}</h4>-->
+            <!--</div>-->
+        </div>
+
+
+    </div>
+
+    <div class="actions">
+        <div class="ui black deny button" ng-click="toggleAddModal('hide')">
+            取消
+        </div>
+        <div class="ui positive right labeled icon button" ng-click="calPerformance('1970-01-01',tmp_item)">
+            提交
+            <i class="checkmark icon"></i>
+        </div>
+    </div>
+</div>

@@ -9,7 +9,6 @@
 namespace App\Libraries\Tools\ModelExtend;
 
 
-use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\ValidationException;
@@ -1871,7 +1870,7 @@ class ModelExtend
      */
     protected static function linkTable(&$data, &$links)
     {
-        if (empty($data))
+        if (empty($data)||empty($data[0]))
         {
             return;
         } // 12/12 if data is null will be repeat without limit

@@ -14,12 +14,12 @@ class Handler extends ExceptionHandler
      * @var array
      */
     protected $dontReport = [
-        \Illuminate\Auth\AuthenticationException::class,
-        \Illuminate\Auth\Access\AuthorizationException::class,
-        \Symfony\Component\HttpKernel\Exception\HttpException::class,
-        \Illuminate\Database\Eloquent\ModelNotFoundException::class,
-        \Illuminate\Session\TokenMismatchException::class,
-        \Illuminate\Validation\ValidationException::class,
+//        \Illuminate\Auth\AuthenticationException::class,
+//        \Illuminate\Auth\Access\AuthorizationException::class,
+//        \Symfony\Component\HttpKernel\Exception\HttpException::class,
+//        \Illuminate\Database\Eloquent\ModelNotFoundException::class,
+//        \Illuminate\Session\TokenMismatchException::class,
+//        \Illuminate\Validation\ValidationException::class,
     ];
 
     /**
@@ -44,7 +44,8 @@ class Handler extends ExceptionHandler
      */
     public function render($request, Exception $exception)
     {
-        return parent::render($request, $exception);
+        dump($exception);
+        //return parent::render($request, $exception);
     }
 
     /**

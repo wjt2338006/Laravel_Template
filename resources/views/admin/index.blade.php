@@ -45,9 +45,9 @@
                                         style="margin-left: 15px">
                                     <i class="list icon"></i>
                                 </button>
-                                <button class="circular ui icon button" ng-click="toggleLeft()">
-                                    <i class="reply icon"></i>
-                                </button>
+                                {{--<button class="circular ui icon button" ng-click="toggleLeft()">--}}
+                                    {{--<i class="reply icon"></i>--}}
+                                {{--</button>--}}
                                 <div class="ui breadcrumb" style="margin-left: 15px">
                                     <a class="section">Home</a>
                                     <i class="right angle icon divider"></i>
@@ -87,9 +87,9 @@
 
 @section('scripts')
     @parent
+    <script src="/app/controller/admin/index.js"></script>
+    {{--<script src="/app/controller/admin/goods.js"></script>--}}
 
-    <script src="/app/controller/basic/index.js"></script>
-    <script src="/app/controller/basic/goods.js"></script>
     <script src="/app/service/header_nav.js"></script>
     <script src="/app/service/SelectPageService.js"></script>
 
