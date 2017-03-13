@@ -117,9 +117,9 @@ class IndexController
         return response()->json(["status" => 200, "message" => "ok", "data" => $id]);
     }
 
-    public function delStaff()
+    public function delStaff($id)
     {
-        $id = Request::input("params");
+//        $id = Request::input("params");
         $num = ModelExtend::getBuilder("staff.staff_id", true)->where("staff_id", $id)->delete();
         return response()->json(["status" => 200, "message" => "ok", "data" => $num]);
     }
@@ -297,10 +297,11 @@ class IndexController
 
     }
 
-    public function delPosition()
+    public function delPosition($id)
     {
-        $id = Request::input("params");
-        ModelExtend::getBuilder("position.position_id")
+
+//        $id = Request::input("params");
+        ModelExtend::getBuilder("position.position_id",true)
             ->where("position_id", "=", $id)
             ->delete();
         return response()->json(["status" => true, "message" => "ok"]);

@@ -137,6 +137,13 @@ adminApp.controller("StaffCtrl", function ($scope, $http, SelectPage, $state) {
                 $scope.toGoodsDetail(res.data.data);
             }
         });
+    };
+    $scope.delStaff = function(id){
+        $http.post("./delStaff/"+id, {}).then(function (res) {
+            if (res.data.status == 200) {
+                $scope.selectPage.getData();
+            }
+        });
     }
 
 
@@ -239,10 +246,13 @@ adminApp.controller("PositionCtrl", function ($scope, $http, SelectPage, $state)
     };
 
 
-    // $scope.toGoodsDetail = function (id) {
-    //     $scope.isDetail = true;
-    //     $state.go('position_detail', {id: id});
-    // };
+    $scope.delPosition  = function(id){
+        $http.post("./delPosition/"+id, {}).then(function (res) {
+            if (res.data.status == true) {
+                $scope.selectPage.getData();
+            }
+        });
+    }
 
 
     $scope.toggleModal = function (status,k) {

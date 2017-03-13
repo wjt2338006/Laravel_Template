@@ -51,7 +51,7 @@ Route::group(['namespace'=>'Admin','prefix'=>'admin',"middleware"=>"auth:1"],fun
     Route::get('/position', 'IndexController@getPosition');
     Route::post('/addPosition', 'IndexController@addPosition');
     Route::post('/updatePosition', 'IndexController@updatePosition');
-    Route::post('/delPosition', 'IndexController@delPosition');
+    Route::post('/delPosition/{id}', 'IndexController@delPosition');
 
 
 
