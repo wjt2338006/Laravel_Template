@@ -1,10 +1,85 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
-<body>
+<md-card>
+    <md-card-title>
 
-</body>
-</html>
+        <div layout="row" style="width:100%">
+
+            <div flex="100">
+                <select-page limit="selectPage.limit" get-data="selectPage.getData" input-list="inputList"
+                             select-list="selectList"></select-page>
+            </div>
+        </div>
+
+        <button class="ui teal basic button tiny" ng-click="toggleModal('show')">Add</button>
+    </md-card-title>
+    <md-card-content>
+        <loading-man onload="onload"></loading-man>
+        <md-table-container ng-if="onload">
+            <table class="ui celled padded table" md-table>
+                <thead md-head md-order="orderByName">
+                <tr md-row>
+                    <th md-column>ID</th>
+                    <th md-column> 职位名</th>
+                    <th md-column> 操作</th>
+
+                </tr>
+                </thead>
+                <tbody md-body>
+                <tr md-row ng-repeat="(k,single) in selectPage.data ">
+                    <td md-cell ng-bind="single.position_id"></td>
+                    <td md-cell ng-bind="single.position_name"></td>
+                    <td md-cell>
+                        <button class="ui icon button" ng-click="toggleModal('show',k)">
+                            <i class="write icon"></i>
+                        </button>
+
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </md-table-container>
+
+    </md-card-content>
+
+    <div class="ui modal position_manage">
+        <i class="close icon"></i>
+        <div class="header">
+            职位
+        </div>
+        <div class="image content">
+
+            <div class="ui form">
+                <div class="fields">
+                    <div class="ui label">职位</div>
+                    <input type="text" placeholder="必填" ng-model="tmp_position.position_name">
+                </div>
+                <div class="fields" ng-repeat="(k,i) in tmp_position.items">
+                    <div class="field">
+                        <label>名字</label>
+                        <input type="text" placeholder="名字" ng-model="i.item_name">
+                    </div>
+                    <div class="field">
+                        <label>价格</label>
+                        <input type="text" placeholder="价格" ng-model="i.item_price">
+                    </div>
+                    <div class="field">
+                        <label>操作</label>
+                        <div class="ui small button" ng-click="delItem(k)">删除</div>
+                    </div>
+
+                </div>
+                <div class="fields">
+                    <div class="ui small button" ng-click="addItem()">添加</div>
+                </div>
+            </div>
+        </div>
+        <div class="actions">
+            <div class="ui black deny button" ng-click="toggleModal('hide')">
+                取消
+            </div>
+            <div class="ui positive right labeled icon button" ng-click="submit()">
+                提交
+                <i class="checkmark icon"></i>
+            </div>
+        </div>
+    </div>
+</md-card>

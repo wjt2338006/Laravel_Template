@@ -2,6 +2,7 @@
 
 namespace App\Exceptions;
 
+use App\Libraries\Tools\ModelExtend\Helper;
 use Exception;
 use Illuminate\Auth\AuthenticationException;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
@@ -32,7 +33,7 @@ class Handler extends ExceptionHandler
      */
     public function report(Exception $exception)
     {
-        parent::report($exception);
+//        parent::report($exception);
     }
 
     /**
@@ -44,7 +45,7 @@ class Handler extends ExceptionHandler
      */
     public function render($request, Exception $exception)
     {
-        dump($exception);
+        return response()->json(["status"=>500,"message"=>Helper::handleException("",$exception,true)]);
         //return parent::render($request, $exception);
     }
 

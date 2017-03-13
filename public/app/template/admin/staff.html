@@ -2,13 +2,13 @@
     <md-card-title>
 
         <div layout="row" style="width:100%">
-            <md-button class="md-primary">Click me</md-button>
+
             <div flex="100" >
                 <select-page limit="selectPage.limit" get-data="selectPage.getData" input-list="inputList" select-list="selectList"></select-page>
             </div>
         </div>
 
-        <button class="ui teal basic button tiny" ng-click="toggleAddModal('show')">Add</button>
+        <button class="ui teal basic button tiny " ng-click="toggleAddModal('show')">Add</button>
     </md-card-title>
     <md-card-content >
         <loading-man onload="onload"></loading-man>
@@ -18,7 +18,7 @@
                 <tr md-row >
                     <th md-column >ID</th>
                     <th md-column > 性别</th>
-                    <th md-column > 年龄</th>
+                    <th md-column > 姓名</th>
                     <th md-column > 出生日期 </th>
                     <th md-column > 身份证号 </th>
                     <th md-column > 职位 </th>
@@ -30,7 +30,7 @@
                 <tr md-row  ng-repeat="single in selectPage.data ">
                     <td md-cell ng-bind="single.staff_id"></td>
                     <td md-cell ng-bind="single.staff_sex"></td>
-                    <td md-cell ng-bind="single.staff_age"></td>
+                    <td md-cell ng-bind="single.staff_name"></td>
                     <td md-cell ng-bind="single.staff_birth"></td>
                     <td md-cell ng-bind="single.staff_cid"></td>
                     <td md-cell ng-bind="single.staff_position"></td>
@@ -48,7 +48,7 @@
 
     </md-card-content>
 
-    <div class="ui modal">
+    <div class="ui modal add_staff">
         <i class="close icon"></i>
         <div class="header">
             添加新员工

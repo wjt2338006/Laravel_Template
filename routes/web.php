@@ -11,26 +11,30 @@
 |
 */
 
-Route::get('/', "IndexController@index");
-Route::group(['namespace'=>'Basic','prefix'=>'Basic'],function(){
-    Route::get('/', 'IndexController@index');
+//Route::get('/', "IndexController@index");
+//Route::group(['namespace'=>'Basic','prefix'=>'Basic'],function(){
+//    Route::get('/', 'IndexController@index');
+//
+//    Route::group(['namespace'=>'Auth','prefix'=>'Auth'],function(){
+//        Route::get('/', 'IndexController@index');
+//    });
+//
+//
+//    Route::group(['namespace'=>'Goods','prefix'=>'Goods'],function(){
+//        Route::get('/getData', 'GoodsController@getGoodsData');
+//    });
+//
+//
+//
+//});
 
-    Route::group(['namespace'=>'Auth','prefix'=>'Auth'],function(){
-        Route::get('/', 'IndexController@index');
-    });
+Route::get('/login', 'AuthController@login');
+Route::post('/login', 'AuthController@requestLogin');
+Route::get('/logout', 'AuthController@logout');
 
-
-    Route::group(['namespace'=>'Goods','prefix'=>'Goods'],function(){
-        Route::get('/getData', 'GoodsController@getGoodsData');
-    });
-
-
-
-});
-
-
-Route::group(['namespace'=>'Admin','prefix'=>'admin'],function(){
-    Route::get('/', function (){ return redirect()->action("Admin\IndexController@index");});
+Route::get('/', function (){ return redirect()->action('Admin\IndexController@index');});
+Route::group(['namespace'=>'Admin','prefix'=>'admin',"middleware"=>"auth:1"],function(){
+    Route::get('/', function (){ return redirect()->action('Admin\IndexController@index');});
     Route::get('/index', 'IndexController@index');
 
     //员工
@@ -44,10 +48,11 @@ Route::group(['namespace'=>'Admin','prefix'=>'admin'],function(){
     Route::post('/generatePerformance', 'IndexController@generatePerformance');
 
     //职位
+    Route::get('/position', 'IndexController@getPosition');
     Route::post('/addPosition', 'IndexController@addPosition');
     Route::post('/updatePosition', 'IndexController@updatePosition');
     Route::post('/delPosition', 'IndexController@delPosition');
 
-    Route::get('/getItemByStaff', 'IndexController@getItemByStaff');
+
 
 });

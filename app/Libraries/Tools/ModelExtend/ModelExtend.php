@@ -133,7 +133,7 @@ class ModelExtend
      * @return array 结果数组 ["status":true,"message":"","data":[],"total":10,["page":object]]
      * @throws \Exception
      */
-    static public function select($queryLimit, $query = null)
+    static public function select($queryLimit, $query = null,$allowTotal=false)
     {
 
 
@@ -227,7 +227,11 @@ class ModelExtend
         {
             $con = $conData["con"];
         }
-        $returnData["total"] = $numQuery->select(static::getBuilder($con)->raw('count(*) as num'))->first()->num;
+        if($allowTotal)
+        {
+            $returnData["total"] = $numQuery->select(static::getBuilder($con)->raw('count(*) as num'))->first()->num;
+        }
+
 
 
 

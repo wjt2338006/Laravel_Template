@@ -16,14 +16,14 @@ class Permission
         {
             foreach ($auth["permit"] as $permit)
             {
-                if($permit["permission_id"] == $permissionId)
+                if($permit["re_permission_id"] == $permissionId)
                 {
                     return true;
                 }
             }
 
         }
-        return true;
+        return false;
     }
 
     public function __construct($groupId)
@@ -42,7 +42,7 @@ class Permission
         session(["admin_auth"=>$this->power]);
 
     }
-    public function clean()
+    public static function clean()
     {
         session(["admin_auth"=>null]);
     }

@@ -41,20 +41,20 @@
 
                             <h2 class="md-toolbar-tools">Admin 主页
 
-                                <button class="circular ui icon button" ng-click="toggleLeft()"
+                                <button class="circular ui icon button" ng-click="logout()"
                                         style="margin-left: 15px">
-                                    <i class="list icon"></i>
+                                    <i class="erase icon"></i>
                                 </button>
                                 {{--<button class="circular ui icon button" ng-click="toggleLeft()">--}}
                                     {{--<i class="reply icon"></i>--}}
                                 {{--</button>--}}
-                                <div class="ui breadcrumb" style="margin-left: 15px">
-                                    <a class="section">Home</a>
-                                    <i class="right angle icon divider"></i>
-                                    <a class="section">Store</a>
-                                    <i class="right angle icon divider"></i>
-                                    <div class="active section">T-Shirt</div>
-                                </div>
+                                {{--<div class="ui breadcrumb" style="margin-left: 15px">--}}
+                                    {{--<a class="section">Home</a>--}}
+                                    {{--<i class="right angle icon divider"></i>--}}
+                                    {{--<a class="section">Store</a>--}}
+                                    {{--<i class="right angle icon divider"></i>--}}
+                                    {{--<div class="active section">T-Shirt</div>--}}
+                                {{--</div>--}}
 
 
                             </h2>

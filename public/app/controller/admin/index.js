@@ -69,6 +69,16 @@ adminApp.controller("IndexCtrl", function ($scope, $mdSidenav, HeaderNav, $http)
     HeaderNav.flush(nav_list);
     $scope.headerNav = HeaderNav;
 
+    $scope.logout = function(){
+        $http.get("/logout").then(function(res){
+            if(res.data.status == true)
+            {
+                window.location="/";
+            }
+
+        })
+    }
+
 
 });
 
@@ -99,8 +109,8 @@ adminApp.controller("StaffCtrl", function ($scope, $http, SelectPage, $state) {
     // };
 
     $scope.inputList = {
-        "data_name": "按名称搜索",
-        "data_id": "请输入id"
+        "staff_name": "按名称搜索",
+        "staff_id": "请输入id"
     };
 
 
@@ -111,7 +121,7 @@ adminApp.controller("StaffCtrl", function ($scope, $http, SelectPage, $state) {
 
 
     $scope.toggleAddModal = function (status) {
-        $('.ui.modal').modal(status);
+        $('.add_staff').modal(status);
     };
 
     $scope.addStaff = function (name) {
@@ -138,7 +148,7 @@ adminApp.controller("StaffDetailCtrl", function ($scope, $http, SelectPage, $sta
     $scope.toList = function () {
         $scope.isDetail = false;
         $state.go('staff');
-    }
+    };
 
     $scope.staffData = {}
     $scope.tmp_item = {}
@@ -146,25 +156,20 @@ adminApp.controller("StaffDetailCtrl", function ($scope, $http, SelectPage, $sta
         $http.post("./getStaffDetail/" + $scope.staff_id, {}).then(function (res) {
             if (res.data.status == 200) {
                 $scope.staffData = res.data.data.staff;
+                $scope.staffData.staff_birth = new Date($scope.staffData.staff_birth )
+
                 $scope.position = res.data.data.position;
+                $scope.performance = res.data.data.performance;
             }
 
         });
 
-        // $scope.monitorItem = $scope.$watch("tmp_item",function(){
-        //     $scope.total = 0
-        //     for(var i in $scope.tmp_item)
-        //     {
-        //         $scope.total+=$scope.tmp_item[i]*staffData.items[i].item_price
-        //         console.log($scope.total)
-        //     }
-        //     $scope.total+=$scope.staffData.staff_basic_price
-        //
-        // },true);
 
     };
 
     $scope.submit = function () {
+        // console.log($scope.staffData.staff_birth.valueOf())
+        $scope.staffData.staff_birth = $scope.staffData.staff_birth.valueOf() /1000
         $http.post("./updateStaff/" + $scope.staff_id, {params: $scope.staffData}).then(function (res) {
             if (res.data.status == 200) {
                 $scope.getDetail();
@@ -172,9 +177,7 @@ adminApp.controller("StaffDetailCtrl", function ($scope, $http, SelectPage, $sta
 
         });
     };
-    $scope.getPerformance = function () {
 
-    };
 
     $scope.calPerformance = function (date, item) {
         $http.post("./generatePerformance", {
@@ -184,34 +187,103 @@ adminApp.controller("StaffDetailCtrl", function ($scope, $http, SelectPage, $sta
                 item: item
             }
         }).then(function (res) {
-            if (res.data.status == 200) {
-                $scope.getPerformance();
+            console.log(res)
+            if (res.data.status != 500) {
+                $scope.getDetail();
             }
 
         });
     };
-    // $scope.changeSingleItem = function(now)
-    // {
-    //     $scope.total = 0
-    //     for(var i in $scope.tmp_item)
-    //     {
-    //         $scope.total+=$scope.tmp_item[i]*staffData.items[i].item_price
-    //     }
-    //     $scope.total+=$scope.staffData.staff_basic_price
-    //
-    //
-    //
-    // }
-
-
 
 
 
     $scope.toggleCalModal = function (status) {
-        $('.ui.modal').modal(status);
+        $('.cal_performance').modal(status);
     };
 
 
     $scope.getDetail();
+
+});
+
+
+adminApp.controller("PositionCtrl", function ($scope, $http, SelectPage, $state) {
+
+    $scope.onload = false;
+
+    $scope.result = {};
+
+    $scope.selectPage = SelectPage;
+    $scope.selectPage.limit = {start: 0, num: 10, desc: true, status: ''};
+    $scope.selectPage.getDataUrl = "./position";
+    $scope.selectPage.getDataMethod = "GET";
+    $scope.selectPage.getData();
+    $scope.selectPage.successCallback = function (response) {
+        $scope.onload = true;
+
+    };
+
+    // $scope.selectList = {
+    //     "status": [
+    //         {key: "", value: "选择所有状态"},
+    //         {key: "key", value: "买了"},
+    //         {key:"ss",value:"12132"}
+    //     ],
+    //     "ssss":[{key:"",value:"所有人"}]
+    // };
+
+    $scope.inputList = {
+        "position_name": "按名称搜索",
+        "position_id": "请输入id"
+    };
+
+
+    // $scope.toGoodsDetail = function (id) {
+    //     $scope.isDetail = true;
+    //     $state.go('position_detail', {id: id});
+    // };
+
+
+    $scope.toggleModal = function (status,k) {
+        if(k!=undefined)
+        {
+            $scope.tmp_position = $scope.selectPage.data[k]
+            console.log($scope.tmp_position)
+        }
+        else
+        {
+            $scope.tmp_position = {"items":[],"position_name":""};
+        }
+        $('.position_manage').modal(status);
+    };
+
+    $scope.addItem= function()
+    {
+        $scope.tmp_position.items.push({
+            "item_name":"",
+            "item_price":0.0
+        })
+    };
+    $scope.delItem = function(k)
+    {
+        $scope.tmp_position.items.splice(k,1);
+    };
+
+    $scope.submit = function()
+    {
+        $http.post("./updatePosition",{params:$scope.tmp_position}).then(function (res) {
+            console.log(res)
+            if (res.data.status != 500) {
+                $scope.selectPage.getData();
+            }
+
+        });
+
+    };
+
+    $scope.tmp_position = {"items":[],"position_name":""};
+
+
+
 
 });
