@@ -25,17 +25,18 @@ class IndexController
 
         $limit = Request::input("params");
         $limit = json_decode($limit, true);
-        $limit["custom"] = function($limit,$query)
-        {
+        $limit["custom"] = function ($limit, $query) {
 
-            if(isset($limit["staff_id"]))
-            {
-                $query->where("staff_id",$limit["staff_id"]);
+            if (isset($limit["staff_id"])) {
+                $query->where("staff_id", $limit["staff_id"]);
             }
-            if(isset($limit["staff_name"]))
-            {
-                $query->where("staff_name","like","%".$limit["staff_name"]."%");
+            if (isset($limit["staff_name"])) {
+                $query->where("staff_name", "like", "%" . $limit["staff_name"] . "%");
             }
+            $query->leftJoin("position","staff_position","=","position_id");
+        };
+        $limit["resultConvert"] = function(&$data){
+            $data["staff_birth"] = ModelExtend::timeToDayStr($data["staff_birth"]);
         };
 
 
@@ -64,7 +65,7 @@ class IndexController
                 ]
             ],
             "first" => true,
-            "resultConvert"=>function(&$data){
+            "resultConvert" => function (&$data) {
                 $data["staff_birth"] = ModelExtend::timeToDayStr($data["staff_birth"]);
             }
         ], "staff.staff_id")["data"];
@@ -78,21 +79,22 @@ class IndexController
             ]
         ],
             "position.position_id")["data"];
-        try
-        {
-            $performanceData = ModelExtend::select([":performance_staff"=>$id,"desc"=>true,"resultConvert"=>function(&$data){
-                $data["performance_date"] = ModelExtend::timeToDayStr($data["performance_date"]);
-            }],"mysql.performance.performance_id")["data"];
-        }
-        catch(\Exception $e)
-        {
+        try {
+            $performanceData = ModelExtend::select([
+                ":performance_staff" => $id,
+                "desc" => true,
+                "resultConvert" => function (&$data) {
+                    $data["performance_date"] = ModelExtend::timeToDayStr($data["performance_date"]);
+                }
+            ], "mysql.performance.performance_id")["data"];
+        } catch (\Exception $e) {
             dump($e);
         }
 
         return response()->json([
             "status" => 200,
             "message" => "get data!",
-            "data" => ["staff" => $staffData, "position" => $positionData,"performance"=>$performanceData]
+            "data" => ["staff" => $staffData, "position" => $positionData, "performance" => $performanceData]
         ]);
     }
 
@@ -110,7 +112,8 @@ class IndexController
                 "staff_position",
                 "staff_basic_price"
             ]);
-        $id = ModelExtend::getBuilder("staff.staff_id", true)->insertGetId($data);
+        dump($data);
+        $id = ModelExtend::getBuilder("mysql.staff.staff_id", true)->insertGetId($data);
         return response()->json(["status" => 200, "message" => "ok", "data" => $id]);
     }
 
@@ -123,8 +126,7 @@ class IndexController
 
     public function updateStaff($id)
     {
-        try
-        {
+        try {
             $data = Request::input("params");
 //        $id = $data["staff_id"];
             ModelExtend::filter($data,
@@ -139,9 +141,7 @@ class IndexController
                 ]);
             $num = ModelExtend::getBuilder("staff.staff_id", true)->where("staff_id", "=", $id)->update($data);
             return response()->json(["status" => 200, "message" => "ok", "data" => $num]);
-        }
-        catch(\Exception $e)
-        {
+        } catch (\Exception $e) {
             dump($e);
         }
 
@@ -207,22 +207,20 @@ class IndexController
     {
         $limit = Request::input("params");
         $limit = json_decode($limit, true);
-        $limit["custom"] = function($limit,$query)
-        {
+        $limit["custom"] = function ($limit, $query) {
 
-            if(isset($limit["position_id"]))
-            {
-                $query->where("position_id",$limit["position_id"]);
+            if (isset($limit["position_id"])) {
+                $query->where("position_id", $limit["position_id"]);
             }
-            if(isset($limit["position_name"]))
-            {
-                $query->where("position_name","like","%".$limit["position_name"]."%");
+            if (isset($limit["position_name"])) {
+                $query->where("position_name", "like", "%" . $limit["position_name"] . "%");
             }
         };
 
-        $limit["resultConvert"] = function(&$data){
-            $data["items"] = ModelExtend::select([":item_position"=>$data["position_id"]],"mysql.item.item_id")["data"];
-            $data["name"]  = $data["position_name"];
+        $limit["resultConvert"] = function (&$data) {
+            $data["items"] = ModelExtend::select([":item_position" => $data["position_id"]],
+                "mysql.item.item_id")["data"];
+            $data["name"] = $data["position_name"];
         };
         $data = ModelExtend::select($limit, "mysql.position.position_id");
         return response()->json($data);
@@ -244,11 +242,9 @@ class IndexController
 
     public function updatePosition()
     {
-        try
-        {
+        try {
             $data = Request::input("params");
-            if(isset($data["position_id"]))
-            {
+            if (isset($data["position_id"])) {
                 $id = $data["position_id"];
                 $item = $data["items"];
                 ModelExtend::filter($data,
@@ -258,11 +254,11 @@ class IndexController
 
                     ]);
 
-                ModelExtend::getBuilder("position.position_id",true)
+                ModelExtend::getBuilder("position.position_id", true)
                     ->where("position_id", "=", $id)
                     ->update($data);
 
-                ModelExtend::getBuilder("item.item_id",true)->where("item_position",$id)->delete();
+                ModelExtend::getBuilder("item.item_id", true)->where("item_position", $id)->delete();
                 foreach ($item as $single) {
 
                     $insert = [
@@ -271,11 +267,9 @@ class IndexController
                         "item_position" => $id
                     ];
 
-                    ModelExtend::getBuilder("item.item_id",true)->insertGetId($insert);
+                    ModelExtend::getBuilder("item.item_id", true)->insertGetId($insert);
                 }
-            }
-            else
-            {
+            } else {
                 $item = $data["items"];
                 ModelExtend::filter($data,
                     [
@@ -283,29 +277,22 @@ class IndexController
                         "position_name" => "required",
 
                     ]);
-                $id = ModelExtend::getBuilder("position.position_id",true)
+                $id = ModelExtend::getBuilder("position.position_id", true)
                     ->insertGetId($data);
-                ModelExtend::getBuilder("item.item_id",true)->where("item_position",$id)->delete();
+                ModelExtend::getBuilder("item.item_id", true)->where("item_position", $id)->delete();
                 foreach ($item as $single) {
                     $insert = [
                         "item_name" => $single["item_name"],
                         "item_price" => $single["item_price"],
                         "item_position" => $id
                     ];
-                    ModelExtend::getBuilder("item.item_id",true)->insertGetId($insert);
+                    ModelExtend::getBuilder("item.item_id", true)->insertGetId($insert);
                 }
             }
             return response()->json(["status" => true, "message" => "ok", "data" => $data]);
-        }
-        catch(\Exception $e)
-        {
+        } catch (\Exception $e) {
             dump($e);
         }
-
-
-
-
-
 
 
     }

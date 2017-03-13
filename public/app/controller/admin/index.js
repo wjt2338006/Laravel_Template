@@ -125,13 +125,14 @@ adminApp.controller("StaffCtrl", function ($scope, $http, SelectPage, $state) {
     };
 
     $scope.addStaff = function (name) {
-        $http.post("./addStaff", {
+        $http.post("./addStaff", {params:{
             staff_sex: "男",
             staff_age: "0",
-            staff_birth: "1970-01-01",
+            staff_birth: "199999",
             staff_cid: "",
-            staff_basic_price: 0.0
-        }).then(function (res) {
+            staff_basic_price: 0.0,
+            staff_name: name
+        }}).then(function (res) {
             if (res.data.status == 200) {
                 $scope.toGoodsDetail(res.data.data);
             }
