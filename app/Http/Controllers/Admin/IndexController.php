@@ -16,10 +16,32 @@ class IndexController
 {
     public function index()
     {
+        $staffData = ModelExtend::select([
+            ":staff_id" => 3,
+            "link" => [
+                null,
+                "staff_position",
+                "position.position_id",
+                [
+                    "link" =>
+                        [
+                            "items",
+                            "position_id",
+                            "item.item_position"
+                        ]
+
+
+                ]
+            ],
+            "first" => true,
+            "resultConvert" => function (&$data) {
+                $data["staff_birth"] = ModelExtend::timeToDayStr($data["staff_birth"]);
+            }
+        ], "staff.staff_id")["data"];
         return view("admin.index");
     }
 
-
+//获取员工
     public function getStaff()
     {
 
@@ -33,9 +55,9 @@ class IndexController
             if (isset($limit["staff_name"])) {
                 $query->where("staff_name", "like", "%" . $limit["staff_name"] . "%");
             }
-            $query->leftJoin("position","staff_position","=","position_id");
+            $query->leftJoin("position", "staff_position", "=", "position_id");
         };
-        $limit["resultConvert"] = function(&$data){
+        $limit["resultConvert"] = function (&$data) {
             $data["staff_birth"] = ModelExtend::timeToDayStr($data["staff_birth"]);
         };
 
@@ -46,6 +68,7 @@ class IndexController
 
     }
 
+//获取员工的详情
     public function getStaffDetail($id)
     {
         $staffData = ModelExtend::select([
@@ -98,7 +121,7 @@ class IndexController
         ]);
     }
 
-
+//添加员工
     public function addStaff()
     {
         $data = Request::input("params");
@@ -301,7 +324,7 @@ class IndexController
     {
 
 //        $id = Request::input("params");
-        ModelExtend::getBuilder("position.position_id",true)
+        ModelExtend::getBuilder("position.position_id", true)
             ->where("position_id", "=", $id)
             ->delete();
         return response()->json(["status" => true, "message" => "ok"]);

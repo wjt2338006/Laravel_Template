@@ -285,10 +285,13 @@ class ModelExtend
         if (empty($queryLimit["first"]))
         {
             $data = $query->get();
+            $newArray = [];
             foreach ($data as $k => $v)
             {
-                $data[$k] = (array)$v;
+//                $data[$k] = (array)$v;//这是一段糟糕的代码
+                $newArray[] = (array)$v;
             }
+            $data = $newArray;
         }
         else
         {
