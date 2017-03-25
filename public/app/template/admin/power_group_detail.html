@@ -1,0 +1,173 @@
+<md-card ng-if="!loaded">
+    <md-card-title layout="row" layout-align="center center">
+        <div>
+            <md-card-title-text>
+
+                <span class="md-headline">Loading</span>
+
+            </md-card-title-text>
+        </div>
+    </md-card-title>
+    <md-card-content layout="row" layout-align="center center">
+        <md-progress-circular md-mode="indeterminate"></md-progress-circular>
+    </md-card-content>
+</md-card>
+
+
+<md-card ng-if="loaded">
+    <!--<img ng-src="{{imagePath}}" class="md-card-image" alt="Washed Out">-->
+    <md-card-title>
+        <md-card-title-text>
+            <span class="md-headline">权限组详情</span>
+
+        </md-card-title-text>
+    </md-card-title>
+    <md-card-content layout="row">
+        <div layout-gt-sm="row" flex="100">
+            <md-input-container class="md-block" flex-gt-sm>
+                <label>组名</label>
+                <input ng-model="groupData.group_name">
+            </md-input-container>
+
+            <md-input-container class="md-block" flex-gt-sm>
+                <label>状态</label>
+                <md-select ng-model="groupData.group_status">
+                    <md-option ng-repeat="(k,v) in groupStatus" value="{{k}}">
+                        {{v}}
+                    </md-option>
+                </md-select>
+            </md-input-container>
+
+
+        </div>
+    </md-card-content>
+    <md-card-actions layout="row" layout-align="end center" >
+        <md-button class="md-fab md-button md-mini" aria-label="Use Android" md-colors="{background: 'indigo'}">
+            <i class="chevron left icon"></i>
+        </md-button>
+        <md-button class="md-fab md-primary md-mini" aria-label="Use Android">
+            <i class="icon write"></i>
+        </md-button>
+    </md-card-actions>
+</md-card>
+<md-card ng-if="loaded">
+    <md-card-title>
+        <md-card-title-text>
+            <span class="md-headline">用户和权限</span>
+
+        </md-card-title-text>
+    </md-card-title>
+    <md-card-content layout="row">
+
+        <md-card flex="33" layout-padding>
+            <md-list flex>
+                <md-toolbar layout="row" class="md-hue-3" md-colors="{background: 'green'}">
+                    <div class="md-toolbar-tools">
+                        <span>用户</span>
+                    </div>
+                </md-toolbar>
+
+                <md-list-item class="md-1-line" ng-repeat="item in adminData"
+                              ng-click="null">
+                    <div class="md-list-item-text" layout="column" >
+                        <h3>{{item.admin_id}} - {{item.admin_username}}</h3>
+                    </div>
+
+                </md-list-item>
+            </md-list>
+
+            </md-list>
+        </md-card>
+
+        <md-card flex="33" layout-padding>
+
+            <md-list flex>
+                <md-toolbar layout="row" class="md-hue-3" md-colors="{background: 'indigo'}">
+                    <div class="md-toolbar-tools">
+                        <span>已有权限</span>
+                    </div>
+                </md-toolbar>
+                <md-subheader class="md-no-sticky">ID-名称</md-subheader>
+
+                <md-list-item class="md-1-line" ng-repeat="(k,i) in groupData.permit"
+                 ng-click="null">
+                <div class="md-list-item-text" layout="column">
+                    <h3>{{ i.permission_id }} - {{ i.permission_name }}</h3>
+
+                </div>
+
+                <md-button class="md-secondary md-icon-button" ng-click="toReady(k)" aria-label="call">
+                    <i class="mail forward icon "></i>
+                </md-button>
+                </md-list-item>
+            </md-list>
+        </md-card>
+
+        <md-card flex="33" layout-padding>
+
+            <md-list flex>
+                <md-toolbar layout="row" class="md-hue-3" md-colors="{background: 'blue'}">
+                    <div class="md-toolbar-tools">
+                        <span>所有权限</span>
+                    </div>
+                </md-toolbar>
+                <md-subheader class="md-no-sticky">ID-名称</md-subheader>
+
+                <md-list-item class="md-1-line" ng-repeat="i in permitData"
+                 ng-click="null">
+                <div class="md-list-item-text" layout="column">
+                    <h3>{{ i.permission_id }} - {{ i.permission_name }}</h3>
+
+                </div>
+                <md-button class="md-secondary md-icon-button" ng-click="toHave(i)" aria-label="call">
+                    <i class="reply icon "></i>
+                </md-button>
+                </md-list-item>
+            </md-list>
+        </md-card>
+
+
+    </md-card-content>
+
+</md-card>
+
+
+<div class="ui modal cal_performance">
+    <i class="close icon"></i>
+    <div class="header">
+        员工绩效计算
+    </div>
+    <div class="image content">
+        <div class="ui form">
+            <div class="fields" ng-repeat="(k,i) in staffData.items">
+                <div class="field">
+                    <label>绩效 {{i.item_name}} | 绩效标准 {{i.item_price}}</label>
+                    <input type="text" placeholder="填写考核百分比" ng-model="tmp_item[i.item_id]">
+                </div>
+
+            </div>
+            <div class="fields">
+                <div class="field">
+                    <label>时间</label>
+                    <input type="date" placeholder="填写考核百分比" ng-model="tmp_item_date">
+                </div>
+
+            </div>
+
+
+        </div>
+
+
+    </div>
+
+    <div class="actions">
+        <div class="ui black deny button" ng-click="toggleAddModal('hide')">
+            取消
+        </div>
+        <div class="ui positive right labeled icon button"
+             ng-click="calPerformance(tmp_item_date.valueOf()/1000,tmp_item)">
+            提交
+            <i class="checkmark icon"></i>
+        </div>
+    </div>
+</div>

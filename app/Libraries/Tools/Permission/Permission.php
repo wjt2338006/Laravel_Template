@@ -46,5 +46,30 @@ class Permission
     {
         session(["admin_auth"=>null]);
     }
+    public static function getGroup($id = null,$name=null)
+    {
+
+        return MysqlStore::getGroup($id,$name);
+    }
+
+    public static function add($data)
+    {
+        return MysqlStore::addGroup($data);
+    }
+    public static function update($id,$data)
+    {
+        return MysqlStore::updateGroup($id,$data);
+    }
+
+    public static function getPermit()
+    {
+        return MysqlStore::getPermit();
+    }
+
+
+    public static function  getAdmin($limit)
+    {
+        return MysqlStore::getAdmin($limit);
+    }
 
 }

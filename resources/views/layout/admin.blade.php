@@ -3,13 +3,13 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Administration</title>
+    <title>Spider</title>
     @section('styles')
         @include("lib.angular_css")
     @show
 </head>
 <body ng-app="adminApp">
-
+    <toaster-container toaster-options="{'close-button': true,'time-out': 300}"></toaster-container>
     @section("content")
 
     @show

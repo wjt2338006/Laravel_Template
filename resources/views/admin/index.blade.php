@@ -92,7 +92,7 @@
 
     <script src="/app/service/header_nav.js"></script>
     <script src="/app/service/SelectPageService.js"></script>
-
+    <script src="/app/service/admin_service.js"></script>
 
     <script src="/app/directives/SelectPageDirectives.js"></script>
     <script src="/app/directives/LoadingMan.js"></script>

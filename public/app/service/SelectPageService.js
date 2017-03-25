@@ -59,7 +59,7 @@ adminApp
                     var promise = $http.get(url);
                 }
                 if ($scope.getDataMethod == "POST") {
-                    var promise = $http.post($scope.getDataUrl, {queryLimit: $limit});
+                    var promise = $http.post($scope.getDataUrl, {params: $limit});
                 }
 
                 //完成请求的回调

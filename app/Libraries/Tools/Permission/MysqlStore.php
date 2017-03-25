@@ -14,8 +14,8 @@ class MysqlStore implements DataStore
     static $groupCon = "basic.permission_group.group_id";
     static $reCon = "basic.permission_group_re_power.re_permission_id";
     static $permitCon = "basic.permission.permission_id";
-
-    public static function getGroup($id = null)
+    static $adminCon = "basic.admin.admin_id";
+    public static function getGroup($id = null,$name=null)
     {
         $limit = [
             "link" => [
@@ -32,6 +32,13 @@ class MysqlStore implements DataStore
         {
             $limit[":group_id"] = $id;
             $limit["first"] = true;
+        }
+        if(!empty($name))
+        {
+            $limit["custom"] =function($queryLimit,$query)use($name)
+            {
+                $query->where("group_name","like","%".$name."%");
+            };
         }
 
         $data = ModelExtend::select(
@@ -96,5 +103,17 @@ class MysqlStore implements DataStore
     {
         return ModelExtend::getBuilder(static::$permitCon, true)->where("permission_id",
             $id)->where("permission_id", $id)->delete();
+    }
+
+    public static function getAdmin($limit)
+    {
+        $limit["custom"] = function($limit,$q)
+        {
+            if(isset($limit["group_id"]))
+            {
+                $limit[":group_id"] = $limit["group_id"];
+            }
+        };
+        return ModelExtend::select($limit,static::$adminCon)["data"];
     }
 }

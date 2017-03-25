@@ -1,8 +1,7 @@
 /**
- * Created by keith on 17-1-5.
+ * Created by jedi on 17-3-25.
  */
-
-var adminApp = angular.module('adminApp', ['ui.router', 'ngMaterial', 'ngAnimate']).config(function ($stateProvider, $mdThemingProvider) {
+var adminApp = angular.module('adminApp', ['ui.router', 'ngMaterial', 'ngAnimate',"toaster"]).config(function ($stateProvider, $mdThemingProvider) {
     var first = [
         {
             name: 'index',
@@ -12,33 +11,20 @@ var adminApp = angular.module('adminApp', ['ui.router', 'ngMaterial', 'ngAnimate
         },
 
         {
-            name: 'staff',
-            url: '/staff',
-            controller: 'StaffCtrl',
-            templateUrl: '/app/template/admin/staff.html'
+            name: 'power_group',
+            url: '/power_group',
+            controller: 'PowerGroupCtrl',
+            templateUrl: '/app/template/admin/power_group.html'
         },
         {
-            name: 'staff_detail',
-            url: '/staff_detail/:id',
-            controller: 'StaffDetailCtrl',
-            templateUrl: '/app/template/admin/staff_detail.html'
-        },
-        {
-            name: 'position',
-            url: '/position',
-            controller: 'PositionCtrl',
-            templateUrl: '/app/template/admin/position.html'
-        },
-        {
-            name: 'position_detail',
-            url: '/position_detail/:id',
-            controller: 'PositionDetailCtrl',
-            templateUrl: '/app/template/admin/position_detail.html'
+            name: 'power_group_detail',
+            url: '/power_group/:id',
+            controller: 'PowerGroupDetailCtrl',
+            templateUrl: '/app/template/admin/power_group_detail.html'
         }
     ];
 
     for (var i in first) {
-        // console.log(first[i]);
         $stateProvider.state(first[i]);
     }
 
@@ -56,18 +42,21 @@ adminApp.controller("IndexCtrl", function ($scope, $mdSidenav, HeaderNav, $http)
     };
 
 
-    var nav_list = [{
-        name: '员工',
-        url: 'staff'
+    var nav_list = [
 
-    },
         {
-            name: '职位',
-            url: 'position'
+            name: '权限',
+            url: 'power_group_detail'
+        },
+        {
+            name: '基本信息管理',
+            url: 'power_group'
+
         }
     ];
     HeaderNav.flush(nav_list);
     $scope.headerNav = HeaderNav;
+
 
     $scope.logout = function(){
         $http.get("/logout").then(function(res){
@@ -82,19 +71,19 @@ adminApp.controller("IndexCtrl", function ($scope, $mdSidenav, HeaderNav, $http)
 
 });
 
-
-adminApp.controller("StaffCtrl", function ($scope, $http, SelectPage, $state) {
+adminApp.controller("PowerGroupCtrl", function ($scope, $http, SelectPage, $state,toaster) {
 
     $scope.onload = false;
 
     $scope.result = {};
 
     $scope.selectPage = SelectPage;
-    $scope.selectPage.limit = {start: 0, num: 10, desc: true, status: ''};
-    $scope.selectPage.getDataUrl = "./staff";
+    $scope.selectPage.limit = {start: 0, num: 10, desc: true, status: '',group_id:"",group_name:""};
+    $scope.selectPage.getDataUrl = "./powerGroup/get";
     $scope.selectPage.getDataMethod = "GET";
     $scope.selectPage.getData();
     $scope.selectPage.successCallback = function (response) {
+        console.log(response.data)
         $scope.onload = true;
 
     };
@@ -109,192 +98,99 @@ adminApp.controller("StaffCtrl", function ($scope, $http, SelectPage, $state) {
     // };
 
     $scope.inputList = {
-        "staff_name": "按名称搜索",
-        "staff_id": "请输入id"
+        "group_name": "按名称搜索",
+        "group_id": "请输入id"
     };
 
 
-    $scope.toGoodsDetail = function (id) {
+    $scope.toGroupDetail = function (id) {
         $scope.isDetail = true;
-        $state.go('staff_detail', {id: id});
+        $state.go('power_group_detail', {id: id});
     };
 
 
     $scope.toggleAddModal = function (status) {
-        $('.add_staff').modal(status);
+        $('.add_group').modal(status);
+    };
+    $scope.addGroupSubmit = function (data) {
+        $http.post("./powerGroup/add",{params:data}).then(function(response){
+           if(response.status == 200)
+           {
+               console.log(response.data)
+               toaster.pop({
+                   type: 'success',
+                   title: '成功',
+                   body: res.data.message,
+                   timeout: 3000
+               });
+               $scope.toGroupDetail(response.data.data)
+           }
+            toaster.pop({
+                type: 'error',
+                title: '错误',
+                body: res.data.message,
+                timeout: 3000
+            });
+        });
     };
 
-    $scope.addStaff = function (name) {
-        $http.post("./addStaff", {params:{
-            staff_sex: "男",
-            staff_age: "0",
-            staff_birth: "199999",
-            staff_cid: "",
-            staff_basic_price: 0.0,
-            staff_name: name
-        }}).then(function (res) {
-            if (res.data.status == 200) {
-                $scope.toGoodsDetail(res.data.data);
-            }
-        });
-    };
-    $scope.delStaff = function(id){
-        $http.post("./delStaff/"+id, {}).then(function (res) {
-            if (res.data.status == 200) {
-                $scope.selectPage.getData();
-            }
-        });
-    }
+
 
 
 });
-adminApp.controller("StaffDetailCtrl", function ($scope, $http, SelectPage, $stateParams, $state) {
-    console.log($stateParams.id);
 
-    $scope.staff_id = $stateParams.id
-
+adminApp.controller("PowerGroupDetailCtrl",function($scope, $http, SelectPage, $state,$stateParams,AdminService){
+    $scope.group_id = $stateParams.id;
+    $scope.loaded=false;
     $scope.toList = function () {
         $scope.isDetail = false;
-        $state.go('staff');
+        $state.go('power_detail');
     };
 
-    $scope.staffData = {}
-    $scope.tmp_item = {}
-    $scope.getDetail = function () {
-        $http.post("./getStaffDetail/" + $scope.staff_id, {}).then(function (res) {
-            if (res.data.status == 200) {
-                $scope.staffData = res.data.data.staff;
-                $scope.staffData.staff_birth = new Date($scope.staffData.staff_birth )
+    $scope.groupData = {}
+    $scope.permitData = {}
+    $scope.adminData = {}
 
-                $scope.position = res.data.data.position;
-                $scope.performance = res.data.data.performance;
-            }
+    $scope.groupStatus=AdminService.constVal.powerGroupStatus
 
+    $scope.getDetail = function(){
+        AdminService.api.getPowerDetail($scope,"groupData" ,{group_id:$scope.group_id})
+    };
+    $scope.getPermit =  function(){
+        AdminService.api.getPowerPermit($scope,"permitData",$scope.filterHave)
+    };
+    $scope.getAdmin = function(){
+        AdminService.api.getAdmin($scope,"adminData",{group_id:$scope.group_id})
+    };
+
+    $scope.toReady = function(k){
+        var data  = $scope.groupData.permit[k]
+        $scope.groupData.permit.splice(k,1)
+        $scope.permitData.push(data)
+        $scope.filterHave()
+    };
+    $scope.toHave = function(v){
+        $scope.groupData.permit.push(v)
+        $scope.filterHave()
+    };
+    $scope.filterHave = function(){
+        willDel = [];
+        $.each($scope.permitData,function(k,v){
+            $.each( $scope.groupData.permit,function(k1,v1){
+                if(v1.permission_id == v.permission_id)
+                {
+                    willDel.push(k)
+                }
+            });
         });
-
-
-    };
-
-    $scope.submit = function () {
-        // console.log($scope.staffData.staff_birth.valueOf())
-        $scope.staffData.staff_birth = $scope.staffData.staff_birth.valueOf() /1000
-        $http.post("./updateStaff/" + $scope.staff_id, {params: $scope.staffData}).then(function (res) {
-            if (res.data.status == 200) {
-                $scope.getDetail();
-            }
-
-        });
-    };
-
-
-    $scope.calPerformance = function (date, item) {
-        $http.post("./generatePerformance", {
-            params: {
-                performance_date: date,
-                performance_staff: $scope.staff_id,
-                item: item
-            }
-        }).then(function (res) {
-            console.log(res)
-            if (res.data.status != 500) {
-                $scope.getDetail();
-            }
-
+        $.each(willDel,function(k,v){
+            $scope.permitData.splice(v,1)
         });
     };
 
-
-
-    $scope.toggleCalModal = function (status) {
-        $('.cal_performance').modal(status);
-    };
-
-
-    $scope.getDetail();
-
-});
-
-
-adminApp.controller("PositionCtrl", function ($scope, $http, SelectPage, $state) {
-
-    $scope.onload = false;
-
-    $scope.result = {};
-
-    $scope.selectPage = SelectPage;
-    $scope.selectPage.limit = {start: 0, num: 10, desc: true, status: ''};
-    $scope.selectPage.getDataUrl = "./position";
-    $scope.selectPage.getDataMethod = "GET";
-    $scope.selectPage.getData();
-    $scope.selectPage.successCallback = function (response) {
-        $scope.onload = true;
-
-    };
-
-    // $scope.selectList = {
-    //     "status": [
-    //         {key: "", value: "选择所有状态"},
-    //         {key: "key", value: "买了"},
-    //         {key:"ss",value:"12132"}
-    //     ],
-    //     "ssss":[{key:"",value:"所有人"}]
-    // };
-
-    $scope.inputList = {
-        "position_name": "按名称搜索",
-        "position_id": "请输入id"
-    };
-
-
-    $scope.delPosition  = function(id){
-        $http.post("./delPosition/"+id, {}).then(function (res) {
-            if (res.data.status == true) {
-                $scope.selectPage.getData();
-            }
-        });
-    }
-
-
-    $scope.toggleModal = function (status,k) {
-        if(k!=undefined)
-        {
-            $scope.tmp_position = $scope.selectPage.data[k]
-            console.log($scope.tmp_position)
-        }
-        else
-        {
-            $scope.tmp_position = {"items":[],"position_name":""};
-        }
-        $('.position_manage').modal(status);
-    };
-
-    $scope.addItem= function()
-    {
-        $scope.tmp_position.items.push({
-            "item_name":"",
-            "item_price":0.0
-        })
-    };
-    $scope.delItem = function(k)
-    {
-        $scope.tmp_position.items.splice(k,1);
-    };
-
-    $scope.submit = function()
-    {
-        $http.post("./updatePosition",{params:$scope.tmp_position}).then(function (res) {
-            console.log(res)
-            if (res.data.status != 500) {
-                $scope.selectPage.getData();
-            }
-
-        });
-
-    };
-
-    $scope.tmp_position = {"items":[],"position_name":""};
-
-
+    $scope.getDetail()
+    $scope.getPermit()
+    $scope.getAdmin()
 
 
 });

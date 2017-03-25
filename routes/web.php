@@ -33,26 +33,40 @@ Route::post('/login', 'AuthController@requestLogin');
 Route::get('/logout', 'AuthController@logout');
 
 Route::get('/', function (){ return redirect()->action('Admin\IndexController@index');});
-Route::group(['namespace'=>'Admin','prefix'=>'admin',"middleware"=>"auth:1"],function(){
+Route::group(['namespace'=>'Admin','prefix'=>'admin',"middleware"=>"auth:1"],function($router){
     Route::get('/', function (){ return redirect()->action('Admin\IndexController@index');});
     Route::get('/index', 'IndexController@index');
 
-    //员工
-    Route::get('/staff', 'IndexController@getStaff');
-    Route::post('/getStaffDetail/{id}', 'IndexController@getStaffDetail');
-    Route::post('/addStaff', 'IndexController@addStaff');
-    Route::post('/delStaff/{id}', 'IndexController@delStaff');
-    Route::post('/updateStaff/{id}', 'IndexController@updateStaff');
+    Route::get('/get', 'AdminController@get');
 
-    //绩效
-    Route::post('/generatePerformance', 'IndexController@generatePerformance');
+    Route::group(['prefix'=>'powerGroup'],function(){
+        Route::get("/detail/{id}","PowerController@detail");
 
-    //职位
-    Route::get('/position', 'IndexController@getPosition');
-    Route::post('/addPosition', 'IndexController@addPosition');
-    Route::post('/updatePosition', 'IndexController@updatePosition');
-    Route::post('/delPosition/{id}', 'IndexController@delPosition');
+        Route::get("/get","PowerController@get");
+        Route::post("/add","PowerController@add");
+        Route::get("/del","PowerController@del");
+        Route::post("/update","PowerController@update");
 
+        Route::get("/permit","PowerController@getAllPermit");
+    });
+
+
+
+//    //员工
+//    Route::get('/staff', 'IndexController@getStaff');
+//    Route::post('/getStaffDetail/{id}', 'IndexController@getStaffDetail');
+//    Route::post('/addStaff', 'IndexController@addStaff');
+//    Route::post('/delStaff/{id}', 'IndexController@delStaff');
+//    Route::post('/updateStaff/{id}', 'IndexController@updateStaff');
+//
+//    //绩效
+//    Route::post('/generatePerformance', 'IndexController@generatePerformance');
+//
+//    //职位
+//    Route::get('/position', 'IndexController@getPosition');
+//    Route::post('/addPosition', 'IndexController@addPosition');
+//    Route::post('/updatePosition', 'IndexController@updatePosition');
+//    Route::post('/delPosition/{id}', 'IndexController@delPosition');
 
 
 });
