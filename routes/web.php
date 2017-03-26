@@ -50,23 +50,29 @@ Route::group(['namespace'=>'Admin','prefix'=>'admin',"middleware"=>"auth:1"],fun
         Route::get("/permit","PowerController@getAllPermit");
     });
 
+});
+
+Route::group(['namespace'=>'Goods','prefix'=>'goods',"middleware"=>"auth:1"],function($router){
+    Route::get('/', function (){ return redirect()->action('Goods\IndexController@index');});
+    Route::get('/index', 'IndexController@index');
 
 
-//    //员工
-//    Route::get('/staff', 'IndexController@getStaff');
-//    Route::post('/getStaffDetail/{id}', 'IndexController@getStaffDetail');
-//    Route::post('/addStaff', 'IndexController@addStaff');
-//    Route::post('/delStaff/{id}', 'IndexController@delStaff');
-//    Route::post('/updateStaff/{id}', 'IndexController@updateStaff');
-//
-//    //绩效
-//    Route::post('/generatePerformance', 'IndexController@generatePerformance');
-//
-//    //职位
-//    Route::get('/position', 'IndexController@getPosition');
-//    Route::post('/addPosition', 'IndexController@addPosition');
-//    Route::post('/updatePosition', 'IndexController@updatePosition');
-//    Route::post('/delPosition/{id}', 'IndexController@delPosition');
+    Route::group(['prefix'=>'goods'],function(){
+        Route::get("/get","GoodsController@get");
+        Route::get("/detail","GoodsController@detail");
+        Route::get("/appear","GoodsController@appear");
+
+    });
+    Route::group(['prefix'=>'shop'],function(){
+        Route::get("/detail","ShopController@detail");
+        Route::get("/update","ShopController@update");
+    });
+    Route::group(['prefix'=>'monitor'],function(){
+        Route::get("/get","MonitorController@get");
+        Route::get("/detail","MonitorController@detail");
+
+        Route::post("/add","MonitorController@add");
+    });
 
 
 });

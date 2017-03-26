@@ -11,16 +11,28 @@ var adminApp = angular.module('adminApp', ['ui.router', 'ngMaterial', 'ngAnimate
         },
 
         {
-            name: 'power_group',
-            url: '/power_group',
-            controller: 'PowerGroupCtrl',
-            templateUrl: '/app/template/admin/power_group.html'
+            name: 'shop_detail',
+            url: '/shop_detail',
+            controller: 'ShopDetailCtrl',
+            templateUrl: '/app/template/goods/shop_detail.html'
         },
         {
-            name: 'power_group_detail',
-            url: '/power_group/:id',
-            controller: 'PowerGroupDetailCtrl',
-            templateUrl: '/app/template/admin/power_group_detail.html'
+            name: 'goods',
+            url: '/goods',
+            controller: 'GoodsCtrl',
+            templateUrl: '/app/template/goods/goods.html'
+        },
+        {
+            name: 'goods_detail',
+            url: '/goods_detail',
+            controller: 'GoodsDetailCtrl',
+            templateUrl: '/app/template/goods/goods_detail.html'
+        },
+        {
+            name: 'monitor',
+            url: '/monitor',
+            controller: 'MonitorCtrl',
+            templateUrl: '/app/template/goods/monitor.html'
         }
     ];
 
@@ -71,17 +83,17 @@ adminApp.controller("IndexCtrl", function ($scope, $mdSidenav, HeaderNav, $http,
     var nav_list = [
 
         {
-            name: '用户信息管理',
-            url: 'power_group'
+            name: '店铺',
+            url: 'shop_detail'
         },
         {
-            name: '管理员',
-            url: 'power_group'
+            name: '商品',
+            url: 'goods'
 
         },
         {
-            name: '权限',
-            url: 'power_group'
+            name: '监控',
+            url: 'monitor'
 
         }
     ];
@@ -102,6 +114,20 @@ adminApp.controller("IndexCtrl", function ($scope, $mdSidenav, HeaderNav, $http,
 
 });
 
+adminApp.controller("ShopDetailCtrl",function(){
+
+});
+adminApp.controller("GoodsCtrl",function(){
+
+});
+adminApp.controller("GoodsDetailCtrl",function(){
+
+});
+adminApp.controller("Monitor",function(){
+
+});
+
+/*
 adminApp.controller("PowerGroupCtrl", function ($scope, $http, SelectPage, $state,toaster) {
 
     $scope.onload = false;
@@ -239,3 +265,4 @@ adminApp.controller("PowerGroupDetailCtrl",function($scope, $http, SelectPage, $
 
 
 });
+*/

@@ -9,6 +9,17 @@ use Illuminate\Support\Facades\Session;
  */
 class Permission
 {
+    /*
+     * admin_auth
+     * |-权限字段
+     * |-permit 详细权限
+     * |-admin_id
+     * |-admin_username
+     * user_auth
+     * |-shop_id
+     * |-login_id
+     *
+     */
     public static function check($permissionId)
     {
         $auth = session("admin_auth",null);
@@ -56,7 +67,7 @@ class Permission
     {
         return MysqlStore::addGroup($data);
     }
-    public static function update($id,$data)
+    public static function updateGroup($id,$data)
     {
         return MysqlStore::updateGroup($id,$data);
     }
@@ -64,6 +75,10 @@ class Permission
     public static function getPermit()
     {
         return MysqlStore::getPermit();
+    }
+    public static function updateRePermit($id,$data)
+    {
+        return MysqlStore::updateRePermit($id,$data);
     }
 
 

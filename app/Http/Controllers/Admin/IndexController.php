@@ -16,28 +16,28 @@ class IndexController
 {
     public function index()
     {
-        $staffData = ModelExtend::select([
-            ":staff_id" => 3,
-            "link" => [
-                null,
-                "staff_position",
-                "position.position_id",
-                [
-                    "link" =>
-                        [
-                            "items",
-                            "position_id",
-                            "item.item_position"
-                        ]
-
-
-                ]
-            ],
-            "first" => true,
-            "resultConvert" => function (&$data) {
-                $data["staff_birth"] = ModelExtend::timeToDayStr($data["staff_birth"]);
-            }
-        ], "staff.staff_id")["data"];
+//        $staffData = ModelExtend::select([
+//            ":staff_id" => 3,
+//            "link" => [
+//                null,
+//                "staff_position",
+//                "position.position_id",
+//                [
+//                    "link" =>
+//                        [
+//                            "items",
+//                            "position_id",
+//                            "item.item_position"
+//                        ]
+//
+//
+//                ]
+//            ],
+//            "first" => true,
+//            "resultConvert" => function (&$data) {
+//                $data["staff_birth"] = ModelExtend::timeToDayStr($data["staff_birth"]);
+//            }
+//        ], "staff.staff_id")["data"];
         return view("admin.index");
     }
 

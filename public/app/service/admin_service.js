@@ -9,7 +9,7 @@ adminApp
                     type: 'success',
                     title: '成功',
                     body: response.data.message,
-                    timeout: 3000
+                    timeout: 1000
                 });
             }
             else {
@@ -47,7 +47,7 @@ adminApp
                 },
                 getPowerPermit: function (scope, bindvar,before) {
                     var callback = function (res) {
-                        handle_result(res)
+                        // handle_result(res)
                         if (res.data.status == 200) {
                             scope[bindvar] = res.data.data
                             if(before!=undefined)
@@ -62,7 +62,7 @@ adminApp
                 },
                 getAdmin:function (scope, bindvar,params) {
                     var callback = function (res) {
-                        handle_result(res)
+                        // handle_result(res)
                         if (res.data.status == 200) {
                             scope[bindvar] = res.data.data
                         }
@@ -71,8 +71,15 @@ adminApp
                     };
                     $http.get(basicUrl + "/get?params=" + JSON.stringify(params)).then(callback);
                 },
-                updatePowerPermit:function(){
-
+                updatePowerPermit:function(params,before)
+                {
+                    var callback = function (res) {
+                        handle_result(res);
+                        if (res.data.status == 200) {
+                            before()
+                        }
+                    };
+                    $http.post(basicUrl+"/powerGroup/update",{params:params}).then(callback)
                 }
             }
         }

@@ -18,7 +18,7 @@ class AdminController extends Controller
         $params = Request::input("params");
         $params = json_decode($params,true);
         $result = Permission::getAdmin($params);
-        return response()->json(["status"=>200,"message"=>"获得数据","data"=>$result]);
+        return response()->json(["status"=>200,"message"=>"获得用户数据","data"=>$result]);
     }
 
 

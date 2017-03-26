@@ -54,7 +54,7 @@ class MysqlStore implements DataStore
 
     public static function updateGroup($id, $data)
     {
-        ModelExtend::filter($data, ["group_name" => "required"]);
+        ModelExtend::filter($data, ["group_name" => "required","group_status"=>"required"]);
         return ModelExtend::getBuilder(static::$groupCon, true)->where("group_id", $id)->update($data);
     }
 
@@ -89,13 +89,13 @@ class MysqlStore implements DataStore
 
     public static function addPermit($data)
     {
-        ModelExtend::filter($data, ["power_name" => "required"]);
+        ModelExtend::filter($data, ["permission_name" => "required"]);
         return ModelExtend::getBuilder(static::$permitCon, true)->insertGetId($data);
     }
 
     public static function updatePermit($id ,$data)
     {
-        ModelExtend::filter($data, ["power_name" => "required"]);
+        ModelExtend::filter($data, ["permission_name" => "required"]);
         return ModelExtend::getBuilder(static::$permitCon, true)->where("permission_id",$id)->update($data);
     }
 
@@ -111,9 +111,25 @@ class MysqlStore implements DataStore
         {
             if(isset($limit["group_id"]))
             {
-                $limit[":group_id"] = $limit["group_id"];
+                $q->where("admin_group","=",$limit["group_id"]);
             }
         };
+        $limit["resultConvert"] = function(&$data)
+        {
+            unset($data["admin_password"]);
+        };
         return ModelExtend::select($limit,static::$adminCon)["data"];
+    }
+    public static function updateRePermit($id, $permitArray)
+    {
+        ModelExtend::getBuilder(static::$reCon, true)->where("re_group_id", $id)->delete();
+
+        foreach ($permitArray as $permit)
+        {
+            ModelExtend::getBuilder(static::$reCon, true)->insertGetId([
+                "re_permission_id" => $permit["permission_id"],
+                "re_group_id" => $id
+            ]);
+        }
     }
 }

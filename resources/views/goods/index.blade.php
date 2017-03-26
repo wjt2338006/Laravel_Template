@@ -16,7 +16,7 @@
 
                         <div>
 
-                            <h2 class="md-toolbar-tools">Admin 主页
+                            <h2 class="md-toolbar-tools">商品和店铺
 
                                 <button class="circular ui icon button" ng-click="logout()"
                                         style="margin-left: 15px">
@@ -64,8 +64,8 @@
 
 @section('scripts')
     @parent
-    <script src="/app/controller/admin/index.js"></script>
-    {{--<script src="/app/controller/admin/goods.js"></script>--}}
+    <script src="/app/controller/goods/index.js"></script>
+
 
     <script src="/app/service/header_nav.js"></script>
     <script src="/app/service/SelectPageService.js"></script>
