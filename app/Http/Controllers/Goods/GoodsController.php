@@ -24,14 +24,22 @@ class GoodsController extends Controller
 
     public function detail($id)
     {
-
+        $user_auth = session("user_auth",null);
+        $gid = $user_auth["shop_id"];
         $data = Goods::select([
-            ":id" => $id,
+            ":goods_shop" => $gid,
+            ":goods_id"=>$id,
             "first" => true,
             "link" => [
                 "appear",
                 "goods_id",
-                "appear.appear_id"
+                "appear.appear_id",
+                [
+                    "task",
+                    "appear_task",
+                    "task.task_id",
+                    ["first"=>true]
+                ]
             ]
         ]);
         return response()->json($data);

@@ -114,8 +114,24 @@ adminApp.controller("IndexCtrl", function ($scope, $mdSidenav, HeaderNav, $http,
 
 });
 
-adminApp.controller("ShopDetailCtrl",function(){
+adminApp.controller("ShopDetailCtrl",function($scope, $http, SelectPage, $state,$stateParams,GoodsService){
+    $scope.loaded = false;
 
+    $scope.result = {};
+    $scope.shopData = {}
+       $scope.getDetail = function(){
+           GoodsService.api.getShopDetail($scope,"shopData")
+       }
+
+    $scope.toggleResetPassModal=function (status) {
+        $('.reset_password').modal(status);
+    };
+    $scope.submitResetPassword = function(data)
+    {
+        GoodsService.api.resetShopPasswd(data)
+    }
+
+    $scope.getDetail();
 });
 adminApp.controller("GoodsCtrl",function(){
 

@@ -66,6 +66,8 @@ Route::group(['namespace'=>'Goods','prefix'=>'goods',"middleware"=>"auth:1"],fun
     Route::group(['prefix'=>'shop'],function(){
         Route::get("/detail","ShopController@detail");
         Route::get("/update","ShopController@update");
+
+        Route::post("/resetPassword","ShopController@resetPassword");
     });
     Route::group(['prefix'=>'monitor'],function(){
         Route::get("/get","MonitorController@get");

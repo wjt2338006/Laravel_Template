@@ -1259,7 +1259,7 @@ class ModelExtend
                         $msgList[] = $message;
                     }
                     $msgList =  json_encode($msgList);
-                    $r = response()->json(["status"=>500,"message"=>$msgList]);
+                    $r = response()->json(["status"=>501,"message"=>$msgList]);
                     throw new ValidationException($validator,$r);
 
                 }

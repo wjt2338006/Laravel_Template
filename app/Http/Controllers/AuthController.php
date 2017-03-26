@@ -38,16 +38,17 @@ class AuthController
 
             $p = new Permission($data["admin_group"]);
             $p->setSession();
+
+            $data["shop_id"]= 1 ;
+            $data["login_id"]= 1 ;
+
+            session(["user_auth"=>$data]);
             return response()->json(["status"=>200,"message"=>"登录成功"]);
         }
         catch(\Exception $e)
         {
             return response()->json(["status"=>500,"message"=>Helper::handleException("错误 + ",$e,true)]);
         }
-
-
-
-
     }
 
 }

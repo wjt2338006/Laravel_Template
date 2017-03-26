@@ -1,0 +1,113 @@
+<md-card ng-if="!loaded">
+    <md-card-title layout="row" layout-align="center center">
+        <div>
+            <md-card-title-text>
+
+                <span class="md-headline">Loading</span>
+
+            </md-card-title-text>
+        </div>
+    </md-card-title>
+    <md-card-content layout="row" layout-align="center center">
+        <md-progress-circular md-mode="indeterminate"></md-progress-circular>
+    </md-card-content>
+</md-card>
+
+
+<md-card ng-if="loaded">
+    <!--<img ng-src="{{imagePath}}" class="md-card-image" alt="Washed Out">-->
+    <md-card-title>
+        <md-card-title-text>
+            <span class="md-headline">基本信息</span>
+
+        </md-card-title-text>
+    </md-card-title>
+    <md-card-content layout="row">
+        <div layout-gt-sm="row" flex="100">
+            <md-input-container class="md-block" flex="20">
+                <label>店铺名</label>
+                <input ng-model="shopData.shop_name" disabled>
+            </md-input-container>
+            <md-input-container class="md-block" flex="20">
+                <label>店铺权限</label>
+                <input ng-model="shopData.group_name" disabled>
+            </md-input-container>
+            <md-input-container class="md-block" flex="20">
+                <label>最大监控关键字</label>
+                <input ng-model="shopData.group_max" disabled>
+            </md-input-container>
+            <md-input-container class="md-block" flex="20">
+                <button class="ui primary button" ng-click="toggleResetPassModal('show')">
+                    重置密码
+                </button>
+            </md-input-container>
+
+        </div>
+    </md-card-content>
+</md-card>
+<md-card ng-if="loaded">
+    <!--<img ng-src="{{imagePath}}" class="md-card-image" alt="Washed Out">-->
+    <md-card-title>
+        <md-card-title-text>
+            <span class="md-headline">授权信息</span>
+
+        </md-card-title-text>
+    </md-card-title>
+    <md-card-content layout="row">
+        <div layout-gt-sm="row" flex="100">
+            <md-input-container class="md-block" flex="20">
+                <label>AccessToken</label>
+                <input ng-model="groupData.group_name" disabled>
+            </md-input-container>
+            <md-input-container class="md-block" flex="20">
+                <label>授权期限</label>
+                <input ng-model="groupData.group_name" disabled>
+            </md-input-container>
+        </div>
+    </md-card-content>
+    <md-card-actions layout="row" layout-align="end center" >
+
+        <md-button class="md-fab md-primary md-mini" ng-click="update(groupData)">
+            <i class="repeat icon"></i>
+        </md-button>
+    </md-card-actions>
+</md-card>
+
+
+<div class="ui modal reset_password">
+    <i class="close icon"></i>
+    <div class="header">
+        重设密码
+    </div>
+    <div class="image content">
+        <div class="ui form">
+            <div class="fields" >
+                <div class="field">
+                    <label >旧密码</label>
+                    <input type="password"  placeholder="旧密码" ng-model="tmp_item.old_password">
+                </div>
+                <div class="field">
+                    <label >新密码</label>
+                    <input type="password"  placeholder="新密码" ng-model="tmp_item.password">
+                </div>
+                <div class="field">
+                    <label >确认新密码</label>
+                    <input type="password"  placeholder="确认新密码" ng-model="tmp_item.password_confirm">
+                </div>
+
+            </div>
+        </div>
+
+
+    </div>
+
+    <div class="actions">
+        <div class="ui black deny button" ng-click="toggleResetPassModal('hide')">
+            取消
+        </div>
+        <div class="ui positive right labeled icon button" ng-click="submitResetPassword(tmp_item)">
+            提交
+            <i class="checkmark icon"></i>
+        </div>
+    </div>
+</div>
