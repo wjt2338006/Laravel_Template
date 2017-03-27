@@ -1,10 +1,71 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
-<body>
+<md-card>
+    <md-card-title>
 
-</body>
-</html>
+        <div layout="row" style="width:100%">
+
+            <div flex="100">
+                <select-page limit="selectPage.limit" get-data="selectPage.getData" input-list="inputList"
+                             select-list="selectList"></select-page>
+            </div>
+        </div>
+    </md-card-title>
+    <md-card-content>
+        <loading-man onload="onload"></loading-man>
+        <md-table-container ng-if="onload">
+            <table class="ui celled padded table" md-table>
+                <thead md-head md-order="orderByName">
+                <tr md-row>
+                    <th md-column>商品ID</th>
+                    <th md-column>商品名</th>
+                    <th md-column>JD SKU ID</th>
+                    <th md-column>卖家</th>
+                    <th md-column>当前位置</th>
+                    <th md-column>最近更新</th>
+                    <th md-column>操作</th>
+                </tr>
+                </thead>
+                <tbody md-body>
+                <tr md-row ng-repeat="(k,single) in selectPage.data ">
+                    <td md-cell ng-bind="single.goods_id"></td>
+                    <td md-cell ng-bind="single.goods_name"></td>
+                    <td md-cell ng-bind="single.goods_jd_sku_id"></td>
+                    <td md-cell ng-bind="single.goods_seller"></td>
+                    <td md-cell ng-bind="single.goods_position"></td>
+                    <td md-cell ng-bind="single.goods_spider_time"></td>
+                    <td md-cell>
+                        <button class="ui icon button" ng-click="toDetail(single.goods_id)">
+                            <i class="write icon"></i>
+                        </button>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </md-table-container>
+
+    </md-card-content>
+
+    <div class="ui modal add_group">
+        <i class="close icon"></i>
+        <div class="header">
+            职位
+        </div>
+        <div class="image content">
+
+            <md-input-container class="md-block" flex-gt-sm>
+                <label>组名</label>
+                <input ng-model="tmp_group.group_name">
+            </md-input-container>
+
+
+        </div>
+        <div class="actions">
+            <div class="ui black deny button" ng-click="toggleAddModal('hide')">
+                取消
+            </div>
+            <div class="ui positive right labeled icon button" ng-click="addGroupSubmit(tmp_group)">
+                提交
+                <i class="checkmark icon"></i>
+            </div>
+        </div>
+    </div>
+</md-card>

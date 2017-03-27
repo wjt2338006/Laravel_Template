@@ -216,7 +216,11 @@ class ModelExtend
         static::handleJsonQuery($queryLimit, $query);
 
         //自定义方法
-        static::selectExtra($queryLimit, $query);
+        if (static::$linkcal == 0)
+        {
+            static::selectExtra($queryLimit, $query);
+        }
+
 
         $returnData = [];
         //计算出符合条件的查询总条数,除开num和limit

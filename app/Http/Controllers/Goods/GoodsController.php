@@ -17,18 +17,25 @@ class GoodsController extends Controller
 {
     public function get()
     {
-        $params = Request::input("params");
+        $params = Request::input("params",[]);
+        $params = json_decode($params,true);
+        $params["link"] = [
+            "appear",
+            "goods_id",
+            "appear.appear_id"
+        ];
+
         $res = Goods::select($params);
         return response()->json($res);
     }
 
     public function detail($id)
     {
-        $user_auth = session("user_auth",null);
+        $user_auth = session("user_auth", null);
         $gid = $user_auth["shop_id"];
         $data = Goods::select([
             ":goods_shop" => $gid,
-            ":goods_id"=>$id,
+            ":goods_id" => $id,
             "first" => true,
             "link" => [
                 "appear",
@@ -38,7 +45,7 @@ class GoodsController extends Controller
                     "task",
                     "appear_task",
                     "task.task_id",
-                    ["first"=>true]
+                    ["first" => true]
                 ]
             ]
         ]);
@@ -49,8 +56,6 @@ class GoodsController extends Controller
     {
 
     }
-
-
 
 
 }

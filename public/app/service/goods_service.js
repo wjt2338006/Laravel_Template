@@ -50,6 +50,21 @@ adminApp
                     };
 
                     $http.post(basicUrl + "/shop/resetPassword",{params:data}).then(callback);
+                },
+                getGoodsDetail:function(scope, bindval,id,before){
+                    scope.loaded = false;
+                    var callback = function (res) {
+                        // handle_result(res)
+                        if (res.data.status == 200) {
+                            scope[bindval] = res.data.data
+                            scope.loaded = true;
+                            before()
+
+                        }
+
+                    };
+
+                    $http.get(basicUrl + "/goods/detail/"+id).then(callback);
                 }
 
             }

@@ -19,14 +19,30 @@ class Goods extends ModelExtend
      * 定义表
      * @var
      */
-    static protected $table = "spider_jd_data";
+    static protected $table = "goods";
 
     /**
      * 定义主键名
      * @var
      */
-    static protected $primaryKey = "data_id";
+    static protected $primaryKey = "goods_id";
 
+    public static function selectExtra(&$queryLimit, $query)
+    {
+        $queryLimit["resultConvert"] = function(&$data){
+//            dump($data);
+            $data["updated_at"] = ModelExtend::timeToSecondStr($data["updated_at"] );
+            $data["goods_spider_time"] = ModelExtend::timeToSecondStr($data["goods_spider_time"] );
+        };
+        if(!empty($queryLimit["goods_name"]))
+        {
+            $query->where("goods_name","like","%".$queryLimit["goods_name"]."%");
+        }
+        if(!empty($queryLimit["goods_id"]))
+        {
+            $query->where("goods_id",$queryLimit["goods_id"]);
+        }
+    }
 
 
 

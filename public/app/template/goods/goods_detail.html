@@ -1,10 +1,112 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
-<body>
+<md-card ng-if="!loaded">
+    <md-card-title layout="row" layout-align="center center">
+        <div>
+            <md-card-title-text>
 
-</body>
-</html>
+                <span class="md-headline">Loading</span>
+
+            </md-card-title-text>
+        </div>
+    </md-card-title>
+    <md-card-content layout="row" layout-align="center center">
+        <md-progress-circular md-mode="indeterminate"></md-progress-circular>
+    </md-card-content>
+</md-card>
+
+
+<md-card ng-if="loaded">
+    <!--<img ng-src="{{imagePath}}" class="md-card-image" alt="Washed Out">-->
+    <md-card-title>
+        <md-card-title-text>
+            <span class="md-headline">基本信息</span>
+
+        </md-card-title-text>
+    </md-card-title>
+    <md-card-content layout="column">
+        <div layout-gt-sm="row" flex="20">
+            <md-input-container class="md-block" flex="20">
+                <label>商品名</label>
+                <input ng-model="goodsData.goods_name" disabled>
+            </md-input-container>
+            <md-input-container class="md-block" flex="20">
+                <label>SKU</label>
+                <input ng-model="goodsData.goods_jd_sku_id" disabled>
+            </md-input-container>
+            <md-input-container class="md-block" flex="20">
+                <label>SPU</label>
+                <input ng-model="goodsData.goods_jd_spu_id" disabled>
+            </md-input-container>
+            <md-input-container class="md-block" flex="20">
+                <label>卖家</label>
+                <input ng-model="goodsData.goods_seller" disabled>
+            </md-input-container>
+            <md-input-container class="md-block" flex="20">
+                <label>价格</label>
+                <input ng-model="goodsData.goods_price" disabled>
+            </md-input-container>
+
+        </div>
+        <div layout-gt-sm="row" flex="100">
+            <md-input-container class="md-block" flex="20">
+                <label>最近爬取时间</label>
+                <input ng-model="goodsData.goods_spider_time" disabled>
+            </md-input-container>
+            <md-input-container class="md-block" flex="20">
+                <button class="ui primary button" href="{{goodsData.goods_jd_url}}">
+                    详情页
+                </button>
+            </md-input-container>
+        </div>
+    </md-card-content>
+</md-card>
+
+<md-content layout-xs="column" layout="row">
+    <div flex-xs flex-gt-xs="50" layout="column" ng-repeat="appears in showAppear ">
+        <md-card ng-repeat="single in appears">
+            <md-card-title>
+                <md-card-title-text>
+                    <span class="md-headline">{{single.appear_index}}</span>
+                </md-card-title-text>
+            </md-card-title>
+            <md-card-content>
+                <p>
+                   这应该有个巨大的图表
+                </p>
+            </md-card-content>
+            <md-card-actions layout="row" layout-align="end center">
+
+            </md-card-actions>
+        </md-card>
+
+    </div>
+
+</md-content>
+
+
+<!--<md-card ng-if="loaded">-->
+    <!--&lt;!&ndash;<img ng-src="{{imagePath}}" class="md-card-image" alt="Washed Out">&ndash;&gt;-->
+    <!--<md-card-title>-->
+        <!--<md-card-title-text>-->
+            <!--<span class="md-headline">授权信息</span>-->
+
+        <!--</md-card-title-text>-->
+    <!--</md-card-title>-->
+    <!--<md-card-content layout="row">-->
+        <!--<div layout-gt-sm="row" flex="100">-->
+            <!--<md-input-container class="md-block" flex="20">-->
+                <!--<label>AccessToken</label>-->
+                <!--<input ng-model="groupData.group_name" disabled>-->
+            <!--</md-input-container>-->
+            <!--<md-input-container class="md-block" flex="20">-->
+                <!--<label>授权期限</label>-->
+                <!--<input ng-model="groupData.group_name" disabled>-->
+            <!--</md-input-container>-->
+        <!--</div>-->
+    <!--</md-card-content>-->
+    <!--<md-card-actions layout="row" layout-align="end center">-->
+
+        <!--<md-button class="md-fab md-primary md-mini" ng-click="update(groupData)">-->
+            <!--<i class="repeat icon"></i>-->
+        <!--</md-button>-->
+    <!--</md-card-actions>-->
+<!--</md-card>-->

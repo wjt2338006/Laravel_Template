@@ -24,7 +24,7 @@ var adminApp = angular.module('adminApp', ['ui.router', 'ngMaterial', 'ngAnimate
         },
         {
             name: 'goods_detail',
-            url: '/goods_detail',
+            url: '/goods_detail/:id',
             controller: 'GoodsDetailCtrl',
             templateUrl: '/app/template/goods/goods_detail.html'
         },
@@ -133,11 +133,74 @@ adminApp.controller("ShopDetailCtrl",function($scope, $http, SelectPage, $state,
 
     $scope.getDetail();
 });
-adminApp.controller("GoodsCtrl",function(){
+adminApp.controller("GoodsCtrl",function($scope, $http, SelectPage, $state,toaster){
+    $scope.onload = false;
+
+    $scope.result = {};
+
+    $scope.selectPage = SelectPage;
+    $scope.selectPage.limit = {start: 0, num: 10, desc: true, status: '',group_id:"",group_name:""};
+    $scope.selectPage.getDataUrl = "./goods/get";
+    $scope.selectPage.getDataMethod = "GET";
+    $scope.selectPage.getData();
+    $scope.selectPage.successCallback = function (response) {
+        console.log(response.data);
+        $scope.onload = true;
+
+    };
+
+    // $scope.selectList = {
+    //     "status": [
+    //         {key: "", value: "选择所有状态"},
+    //         {key: "key", value: "买了"},
+    //         {key:"ss",value:"12132"}
+    //     ],
+    //     "ssss":[{key:"",value:"所有人"}]
+    // };
+
+    $scope.inputList = {
+        "goods_name": "按名称搜索",
+        "goods_id": "请输入id"
+    };
+
+    $scope.toDetail = function(id)
+    {
+        console.log(id)
+        $state.go('goods_detail', {id: id});
+    }
 
 });
-adminApp.controller("GoodsDetailCtrl",function(){
+adminApp.controller("GoodsDetailCtrl",function($scope,$state,GoodsService,$stateParams){
+    $scope.goods_id = $stateParams.id;
 
+    $scope.goodsData = {};
+    $scope.getGoodsDetail = function(){
+        GoodsService.api.getGoodsDetail($scope,"goodsData" ,$scope.goods_id,$scope.spiltAppear)
+    };
+
+    $scope.spiltAppear =function(){
+        appear = $scope.goodsData.appear;
+        first = [];
+        second = [];
+        if(appear.length!=0){
+            var mid =appear.length/2;
+            var i = 0;
+
+            while (i<mid)
+            {
+                first.push(appear[i]);
+                i++;
+            }
+            while(i<appear.length)
+            {
+                second.push(i);
+                i++;
+            }
+        }
+        $scope.showAppear = [first ,second]
+        console.log($scope.showAppear)
+    };
+    $scope.getGoodsDetail()
 });
 adminApp.controller("Monitor",function(){
 

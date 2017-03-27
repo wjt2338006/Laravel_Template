@@ -59,7 +59,7 @@ Route::group(['namespace'=>'Goods','prefix'=>'goods',"middleware"=>"auth:1"],fun
 
     Route::group(['prefix'=>'goods'],function(){
         Route::get("/get","GoodsController@get");
-        Route::get("/detail","GoodsController@detail");
+        Route::get("/detail/{id}","GoodsController@detail");
         Route::get("/appear","GoodsController@appear");
 
     });
