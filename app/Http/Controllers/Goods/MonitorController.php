@@ -20,7 +20,10 @@ class MonitorController extends Controller
         $id = $user_auth["shop_id"];
 
         $params = Request::input("params");
+        $params = json_decode($params, true);
         $params[":watch_shop"] = $id;
+
+        $params = ["link" => [null, "watch_shop", "shop.shop_id"]];
         $data = Monitor::select($params);
 
         return response()->json($data);
@@ -36,7 +39,7 @@ class MonitorController extends Controller
         if ($m->getData()["watch_shop"] != $id) {
             throw  new \Exception("permission denied!");
         }
-        return response()->json(["status"=>200,"message"=>"得到详情","data"=>$m->getData()]);
+        return response()->json(["status" => 200, "message" => "得到详情", "data" => $m->getData()]);
 
     }
 
@@ -46,7 +49,7 @@ class MonitorController extends Controller
         $id = $user_auth["shop_id"];
         $addData[":watch_shop"] = $id;
         $model = Monitor::add($addData);
-        return response()->json(["status"=>200,"message"=>"添加成功","data"=>$model->getId()]);
+        return response()->json(["status" => 200, "message" => "添加成功", "data" => $model->getId()]);
     }
 
 

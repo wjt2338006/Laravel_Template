@@ -17,6 +17,7 @@ class GoodsController extends Controller
 {
     public function get()
     {
+
         $params = Request::input("params",[]);
         $params = json_decode($params,true);
         $params["link"] = [

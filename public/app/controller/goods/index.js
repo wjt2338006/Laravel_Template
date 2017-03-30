@@ -202,7 +202,30 @@ adminApp.controller("GoodsDetailCtrl",function($scope,$state,GoodsService,$state
     };
     $scope.getGoodsDetail()
 });
-adminApp.controller("Monitor",function(){
+adminApp.controller("MonitorCtrl",function($scope,$state,GoodsService,$stateParams,SelectPage){
+    $scope.onload = false;
+
+    $scope.result = {};
+
+    $scope.selectPage = SelectPage;
+    $scope.selectPage.limit = {start: 0, num: 10, desc: true,shop_name:""};
+    $scope.selectPage.getDataUrl = "./monitor/get";
+    $scope.selectPage.getData();
+    $scope.selectPage.successCallback = function (response) {
+        console.log(response.data);
+        $scope.onload = true;
+        console.log($scope.selectPage.data)
+    };
+    $scope.inputList = {
+        ":watch_index": "按名称搜索"
+    };
+
+    $scope.showModal = function(status,data)
+    {
+        $('.monitor_detail').modal(status);
+        $scope.modal_tmp = data
+    }
+
 
 });
 

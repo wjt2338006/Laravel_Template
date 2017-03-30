@@ -19,13 +19,13 @@ class Monitor extends ModelExtend
      * 定义表
      * @var
      */
-    static protected $table = "spider_jd_data";
+    static protected $table = "shop_watch";
 
     /**
      * 定义主键名
      * @var
      */
-    static protected $primaryKey = "data_id";
+    static protected $primaryKey = "watch_id";
 
 
 

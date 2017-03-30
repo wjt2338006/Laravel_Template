@@ -15,25 +15,23 @@
             <table class="ui celled padded table" md-table>
                 <thead md-head md-order="orderByName">
                 <tr md-row>
-                    <th md-column>商品ID</th>
-                    <th md-column>商品名</th>
-                    <th md-column>JD SKU ID</th>
-                    <th md-column>卖家</th>
-                    <th md-column>当前位置</th>
-                    <th md-column>最近更新</th>
+                    <th md-column>任务ID</th>
+                    <th md-column>任务关键字</th>
+                    <th md-column>任务最终时间</th>
+                    <th md-column>任务最近更新</th>
+                    <th md-column>检测店铺</th>
                     <th md-column>操作</th>
                 </tr>
                 </thead>
                 <tbody md-body>
                 <tr md-row ng-repeat="(k,single) in selectPage.data ">
-                    <td md-cell ng-bind="single.goods_id"></td>
-                    <td md-cell ng-bind="single.goods_name"></td>
-                    <td md-cell ng-bind="single.goods_jd_sku_id"></td>
-                    <td md-cell ng-bind="single.goods_seller"></td>
-                    <td md-cell ng-bind="single.goods_position"></td>
-                    <td md-cell ng-bind="single.goods_spider_time"></td>
+                    <td md-cell ng-bind="single.watch_id"></td>
+                    <td md-cell ng-bind="single.watch_index"></td>
+                    <td md-cell ng-bind="single.watch_deadline"></td>
+                    <td md-cell ng-bind="single.watch_last_update"></td>
+                    <td md-cell ng-bind="single.shop_name"></td>
                     <td md-cell>
-                        <button class="ui icon button" ng-click="toDetail(single.goods_id)">
+                        <button class="ui icon button" ng-click="showModal('show',single)">
                             <i class="write icon"></i>
                         </button>
                     </td>
@@ -44,7 +42,7 @@
 
     </md-card-content>
 
-    <div class="ui modal add_group">
+    <div class="ui modal monitor_detail">
         <i class="close icon"></i>
         <div class="header">
             创建新的组
@@ -59,7 +57,7 @@
 
         </div>
         <div class="actions">
-            <div class="ui black deny button" ng-click="toggleAddModal('hide')">
+            <div class="ui black deny button" ng-click="showModal('hide')">
                 取消
             </div>
             <div class="ui positive right labeled icon button" ng-click="addGroupSubmit(tmp_group)">
