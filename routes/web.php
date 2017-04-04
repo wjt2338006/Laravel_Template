@@ -28,6 +28,7 @@
 //
 //});
 
+//Admin相关
 Route::get('/login', 'AuthController@login');
 Route::post('/login', 'AuthController@requestLogin');
 Route::get('/logout', 'AuthController@logout');
@@ -53,36 +54,44 @@ Route::group(['namespace'=>'Admin','prefix'=>'admin',"middleware"=>"auth:1"],fun
 
 });
 
-Route::group(['namespace'=>'Goods','prefix'=>'goods',"middleware"=>"auth:1"],function($router){
+//用户相关
+
+Route::group(['namespace'=>'Goods','prefix'=>'goods'],function($router){
+
     Route::get('/login', 'AuthController@login');
     Route::post('/login', 'AuthController@requestLogin');
     Route::get('/logout', 'AuthController@logout');
-    Route::get("/getUserinfo","AuthController@getUserinfo");
+    Route::group(["middleware"=>"auth:1"],function($router) {
+        Route::get("/getUserinfo","AuthController@getUserinfo");
 
 
-    Route::get('/', function (){ return redirect()->action('Goods\IndexController@index');});
-    Route::get('/index', 'IndexController@index');
+        Route::get('/', function (){ return redirect()->action('Goods\IndexController@index');});
+        Route::get('/index', 'IndexController@index');
 
 
-    Route::group(['prefix'=>'goods'],function(){
-        Route::get("/get","GoodsController@get");
-        Route::get("/detail/{id}","GoodsController@detail");
-        Route::get("/appear","GoodsController@appear");
+        Route::group(['prefix'=>'goods'],function(){
+            Route::get("/get","GoodsController@get");
+            Route::get("/detail/{id}","GoodsController@detail");
+            Route::get("/appear","GoodsController@appear");
+
+        });
+        Route::group(['prefix'=>'shop'],function(){
+            Route::get("/detail","ShopController@detail");
+            Route::get("/update","ShopController@update");
+
+            Route::post("/resetPassword","ShopController@resetPassword");
+        });
+        Route::group(['prefix'=>'monitor'],function(){
+            Route::get("/get","MonitorController@get");
+            Route::get("/detail","MonitorController@detail");
+
+            Route::post("/add","MonitorController@add");
+            Route::get("/delete/{id}","MonitorController@delete");
+        });
 
     });
-    Route::group(['prefix'=>'shop'],function(){
-        Route::get("/detail","ShopController@detail");
-        Route::get("/update","ShopController@update");
 
-        Route::post("/resetPassword","ShopController@resetPassword");
-    });
-    Route::group(['prefix'=>'monitor'],function(){
-        Route::get("/get","MonitorController@get");
-        Route::get("/detail","MonitorController@detail");
 
-        Route::post("/add","MonitorController@add");
-        Route::get("/delete/{id}","MonitorController@delete");
-    });
 
 
 

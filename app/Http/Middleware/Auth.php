@@ -23,13 +23,13 @@ class Auth
     public function handle($request, Closure $next,$permissionId =null)
     {
         // 执行动作
-        if(false!==Permission::check($permissionId))
+        if(!empty(session("user_auth")))
         {
             return $next($request);
         }
         else
         {
-            return redirect()->action('AuthController@login');
+            return redirect()->action('Goods\AuthController@login');
         }
 
     }
