@@ -32,7 +32,8 @@ Route::get('/login', 'AuthController@login');
 Route::post('/login', 'AuthController@requestLogin');
 Route::get('/logout', 'AuthController@logout');
 
-Route::get('/', function (){ return redirect()->action('Admin\IndexController@index');});
+Route::get('/', function (){ return redirect()->action('Goods\IndexController@index');});
+
 Route::group(['namespace'=>'Admin','prefix'=>'admin',"middleware"=>"auth:1"],function($router){
     Route::get('/', function (){ return redirect()->action('Admin\IndexController@index');});
     Route::get('/index', 'IndexController@index');
@@ -53,6 +54,12 @@ Route::group(['namespace'=>'Admin','prefix'=>'admin',"middleware"=>"auth:1"],fun
 });
 
 Route::group(['namespace'=>'Goods','prefix'=>'goods',"middleware"=>"auth:1"],function($router){
+    Route::get('/login', 'AuthController@login');
+    Route::post('/login', 'AuthController@requestLogin');
+    Route::get('/logout', 'AuthController@logout');
+    Route::get("/getUserinfo","AuthController@getUserinfo");
+
+
     Route::get('/', function (){ return redirect()->action('Goods\IndexController@index');});
     Route::get('/index', 'IndexController@index');
 
@@ -74,7 +81,9 @@ Route::group(['namespace'=>'Goods','prefix'=>'goods',"middleware"=>"auth:1"],fun
         Route::get("/detail","MonitorController@detail");
 
         Route::post("/add","MonitorController@add");
+        Route::get("/delete/{id}","MonitorController@delete");
     });
+
 
 
 });

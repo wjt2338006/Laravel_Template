@@ -65,6 +65,15 @@ adminApp
                     };
 
                     $http.get(basicUrl + "/goods/detail/"+id).then(callback);
+                },
+                addMonitor:function(data,back){
+
+                    $http.post(basicUrl + "/monitor/add",{params:data}).then(handle_result);
+                    back();
+                },
+                deleteMonitor:function(id,back){
+                    $http.get(basicUrl + "/monitor/delete/"+id).then(handle_result);
+                    back();
                 }
 
             }

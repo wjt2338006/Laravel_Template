@@ -7,6 +7,8 @@
                 <select-page limit="selectPage.limit" get-data="selectPage.getData" input-list="inputList"
                              select-list="selectList"></select-page>
             </div>
+
+            <button class="ui teal basic button tiny" ng-click="toggleAddModal('show')">Add</button>
         </div>
     </md-card-title>
     <md-card-content>
@@ -15,9 +17,9 @@
             <table class="ui celled padded table" md-table>
                 <thead md-head md-order="orderByName">
                 <tr md-row>
-                    <th md-column>任务ID</th>
-                    <th md-column>任务关键字</th>
-                    <th md-column>任务最终时间</th>
+                    <th md-column>监控ID</th>
+                    <th md-column>关键字</th>
+                    <th md-column>下一次更新时间</th>
                     <th md-column>任务最近更新</th>
                     <th md-column>检测店铺</th>
                     <th md-column>操作</th>
@@ -31,7 +33,7 @@
                     <td md-cell ng-bind="single.watch_last_update"></td>
                     <td md-cell ng-bind="single.shop_name"></td>
                     <td md-cell>
-                        <button class="ui icon button" ng-click="showModal('show',single)">
+                        <button class="ui icon button" ng-click="toggleDetailModal('show',single)">
                             <i class="write icon"></i>
                         </button>
                     </td>
@@ -42,28 +44,60 @@
 
     </md-card-content>
 
-    <div class="ui modal monitor_detail">
+    <div class="ui modal monitor_add" id="monitor_add">
         <i class="close icon"></i>
         <div class="header">
-            创建新的组
+            添加新的关键字
         </div>
         <div class="image content">
 
             <md-input-container class="md-block" flex-gt-sm>
-                <label>组名</label>
-                <input ng-model="tmp_group.group_name">
+                <label>关键字</label>
+                <input ng-model="tmp_m.watch_index">
             </md-input-container>
-
-
+            <md-input-container class="md-block" flex-gt-sm>
+                <label>爬取周期(按照小时计)</label>
+                <input ng-model="tmp_m.watch_cycle">
+            </md-input-container>
         </div>
         <div class="actions">
-            <div class="ui black deny button" ng-click="showModal('hide')">
+            <div class="ui black deny button" ng-click="toggleAddModal('hide')">
                 取消
             </div>
-            <div class="ui positive right labeled icon button" ng-click="addGroupSubmit(tmp_group)">
+            <div class="ui positive right labeled icon button" ng-click="add(tmp_m)">
                 提交
                 <i class="checkmark icon"></i>
             </div>
         </div>
     </div>
+    <div class="ui modal " id="monitor_detail" >
+        <i class="close icon"></i>
+        <div class="header">
+            详情
+        </div>
+        <div class="image content" layout="row">
+            <div flex="60" layout="row">
+                <md-input-container class="md-block" flex="50" >
+                    <label>关键字</label>
+                    <input ng-model="detail.watch_index" disabled>
+                </md-input-container>
+                <md-input-container class="md-block" flex="50"  >
+                    <label>爬取周期(按照小时计)</label>
+                    <input ng-model="detail.watch_cycle" disabled>
+                </md-input-container>
+            </div>
+
+
+        </div>
+        <div class="actions">
+            <div class="ui red deny button" ng-click="delete(detail.watch_id)">
+                删除
+            </div>
+            <div class="ui black deny button" ng-click="toggleDetailModal('hide')">
+                取消
+            </div>
+        </div>
+    </div>
 </md-card>
+
+

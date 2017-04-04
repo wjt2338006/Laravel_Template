@@ -33,30 +33,62 @@ var adminApp = angular.module('adminApp', ['ui.router', 'ngMaterial', 'ngAnimate
             url: '/monitor',
             controller: 'MonitorCtrl',
             templateUrl: '/app/template/goods/monitor.html'
+        },
+        {
+            name: 'monitor_detail',
+            url: '/monitor_detail',
+            controller: 'MonitorDetailCtrl',
+            templateUrl: '/app/template/goods/monitor_detail.html'
         }
     ];
 
-    for (var i in first) {
+    for (var i in first)
+    {
         $stateProvider.state(first[i]);
     }
 
     $mdThemingProvider.theme('default').primaryPalette('teal').accentPalette('brown');
 });
 
-adminApp.controller("IndexCtrl", function ($scope, $mdSidenav, HeaderNav, $http,$mdMenu) {
+adminApp.controller("IndexCtrl", function ($scope, $mdSidenav, HeaderNav, $http,$mdMenu,leftNav) {
     $scope.welcome = "hellow";
 
-    $scope.toggleLeft = function () {
-        $mdSidenav('left').toggle();
+    $scope.getUserInfo = function(){
+        $http.get("./getUserinfo",{}).then(function(res){
+            console.log(res)
+            if(res.status == 200)
+            {
+                $scope.leftMenu = {
+                    username:res.data.data.shop_name,
+                    userhead:"/img/matthew.png",
+                    title:"用户信息",
+                    lastLogin:res.data.data.updated_at,
+                    origin:res.data.data
+                }
+            }
+            else
+            {
+                console.log("error for getUserinfo")
+            }
+        });
     };
-    $scope.toggleRight = function () {
-        $mdSidenav('right').toggle();
-    };
+    $scope.getUserInfo()
+
+    $scope.leftMenu = {
+            username: "用户名",
+            userhead:"/img/matthew.png",
+            title: "标题",
+            lastLogin: "上次登录",
+            menu: [
+                {"name":"用户管理","icon":"add user icon","url":"ss"}
+            ]
+        };
+    $scope.toggleLeft = leftNav.toggleLeft;
 
     $scope.toModule =function(url)
     {
         window.location=url
-    }
+    };
     $scope.leftNav = [
         {
             name:"基本",
@@ -220,151 +252,21 @@ adminApp.controller("MonitorCtrl",function($scope,$state,GoodsService,$statePara
         ":watch_index": "按名称搜索"
     };
 
-    $scope.showModal = function(status,data)
-    {
-        $('.monitor_detail').modal(status);
-        $scope.modal_tmp = data
-    }
-
-
-});
-
-/*
-adminApp.controller("PowerGroupCtrl", function ($scope, $http, SelectPage, $state,toaster) {
-
-    $scope.onload = false;
-
-    $scope.result = {};
-
-    $scope.selectPage = SelectPage;
-    $scope.selectPage.limit = {start: 0, num: 10, desc: true, status: '',group_id:"",group_name:""};
-    $scope.selectPage.getDataUrl = "./powerGroup/get";
-    $scope.selectPage.getDataMethod = "GET";
-    $scope.selectPage.getData();
-    $scope.selectPage.successCallback = function (response) {
-        console.log(response.data)
-        $scope.onload = true;
-
+    $scope.toggleDetailModal = function(status,single){
+        $scope.detail = single;
+        $('#monitor_detail').modal(status);
     };
-
-    // $scope.selectList = {
-    //     "status": [
-    //         {key: "", value: "选择所有状态"},
-    //         {key: "key", value: "买了"},
-    //         {key:"ss",value:"12132"}
-    //     ],
-    //     "ssss":[{key:"",value:"所有人"}]
-    // };
-
-    $scope.inputList = {
-        "group_name": "按名称搜索",
-        "group_id": "请输入id"
+    $scope.toggleAddModal = function(status,id){
+        $('#monitor_add').modal(status);
     };
-
-
-    $scope.toGroupDetail = function (id) {
-        $scope.isDetail = true;
-        $state.go('power_group_detail', {id: id});
+    $scope.add =  function(tmp){
+        GoodsService.api.addMonitor(tmp, $scope.selectPage.getData)
     };
-
-
-    $scope.toggleAddModal = function (status) {
-        $('.add_group').modal(status);
+    $scope.delete =  function(id){
+        GoodsService.api.deleteMonitor(id, $scope.selectPage.getData)
     };
-    $scope.addGroupSubmit = function (data) {
-        $http.post("./powerGroup/add",{params:data}).then(function(response){
-           if(response.status == 200)
-           {
-               toaster.pop({
-                   type: 'success',
-                   title: '成功',
-                   body: response.data.message,
-                   timeout: 1000
-               });
-               $scope.toGroupDetail(response.data.data)
-           }
-            toaster.pop({
-                type: 'error',
-                title: '错误',
-                body: res.data.message,
-                timeout: 3000
-            });
-        });
-    };
-
 
 
 
 });
 
-adminApp.controller("PowerGroupDetailCtrl",function($scope, $http, SelectPage, $state,$stateParams,AdminService){
-    $scope.group_id = $stateParams.id;
-    $scope.loaded=false;
-    $scope.toList = function () {
-        $scope.isDetail = false;
-        $state.go('power_detail');
-    };
-
-    $scope.groupData = {}
-    $scope.permitData = {}
-    $scope.adminData = {}
-
-    $scope.groupStatus=AdminService.constVal.powerGroupStatus
-
-    $scope.getDetail = function(){
-        AdminService.api.getPowerDetail($scope,"groupData" ,{group_id:$scope.group_id})
-    };
-    $scope.getPermit =  function(){
-        AdminService.api.getPowerPermit($scope,"permitData",$scope.filterHave)
-    };
-    $scope.getAdmin = function(){
-        AdminService.api.getAdmin($scope,"adminData",{group_id:$scope.group_id})
-    };
-    $scope.update = function(params){
-        AdminService.api.updatePowerPermit(params,$scope.flush)
-    };
-
-
-    $scope.toReady = function(k){
-        var data  = $scope.groupData.permit[k]
-        $scope.groupData.permit.splice(k,1)
-        $scope.permitData.push(data)
-        $scope.filterHave()
-    };
-    $scope.toHave = function(v){
-        $scope.groupData.permit.push(v)
-        $scope.filterHave()
-    };
-    $scope.filterHave = function(){
-        var newPermit = [];
-        console.log($scope.permitData,$scope.groupData.permit)
-        $.each($scope.permitData,function(k,v){
-            $.each( $scope.groupData.permit,function(k1,v1){
-                if(v1.permission_id == v.permission_id)
-                {
-                    v._del = true;
-                }
-            });
-        });
-
-        $.each($scope.permitData,function(k,v){
-            if(!v._del)
-            {
-                newPermit.push(v)
-            }
-
-        });
-        $scope.permitData = newPermit;
-    };
-
-    $scope.flush = function(){
-        $scope.getDetail()
-        $scope.getPermit()
-        $scope.getAdmin()
-    }
-    $scope.flush()
-
-
-
-});
-*/

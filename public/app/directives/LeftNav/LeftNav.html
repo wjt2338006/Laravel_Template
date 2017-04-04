@@ -1,0 +1,99 @@
+<md-sidenav class="md-sidenav-left" md-component-id="left"
+            md-disable-backdrop md-whiteframe="4">
+
+    <md-toolbar class="md-theme-indigo">
+        <h1 class="md-toolbar-tools">{{data.title}}
+            <md-button class="md-icon-button" aria-label="More" ng-click="toggleLeft()"
+                       style="margin-left: 10px">
+                <i class="arrow left icon"></i>
+            </md-button>
+
+        </h1>
+    </md-toolbar>
+
+    <md-content>
+        <md-card>
+            <img ng-src="{{data.userhead}}" class="md-card-image" alt="Washed Out">
+            <md-card-title>
+                <md-card-title-text>
+                    <span class="md-headline">您好 {{data.username}}</span>
+                </md-card-title-text>
+            </md-card-title>
+            <md-card-content>
+                <p>
+                    用户名:{{data.username}}
+                </p>
+                <p>
+                    最近登录时间: {{data.lastLogin}}
+                </p>
+            </md-card-content>
+            <md-card-actions layout="row" layout-align="end center">
+                <md-button class="md-icon-button" aria-label="Share">
+                    <i class="power icon"></i>
+                </md-button>
+            </md-card-actions>
+        </md-card>
+        <md-list flex>
+
+
+            <md-list-item class="md-1-line" ng-repeat="p in data.menu"
+                          ng-click="toModule(p.url)">
+                <md-button class="md-secondary md-icon-button" aria-label="call">
+                    <i class="{{ p.icon }}"></i>
+                </md-button>
+
+                <div class="md-list-item-text" layout="column">
+                    <h3>{{ p.name }}</h3>
+                </div>
+            </md-list-item>
+
+        </md-list>
+        <md-card layout-padding="10">
+            <table class="ui very basic collapsing celled table">
+
+                <tbody>
+                <tr>
+                    <td>
+                        <h4 class="ui image header">
+
+                            <div class="content">
+                                店铺名
+                            </div>
+                        </h4>
+                    </td>
+                    <td>
+                        {{data.origin.shop_name}}
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <h4 class="ui image header">
+
+                            <div class="content">
+                                用户类型
+                            </div>
+                        </h4>
+                    </td>
+                    <td>
+                        {{data.origin.group_name}}
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <h4 class="ui image header">
+
+                            <div class="content">
+                                最大监控数量
+                            </div>
+                        </h4>
+                    </td>
+                    <td>
+                        {{data.origin.group_max}}
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </md-card>
+    </md-content>
+
+</md-sidenav>

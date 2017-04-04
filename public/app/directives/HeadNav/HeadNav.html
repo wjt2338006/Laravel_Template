@@ -1,0 +1,18 @@
+<md-menu-bar layout="row">
+    <md-menu ng-repeat="i in data">
+        <button ng-click="$mdOpenMenu()">
+            <i class="{{i.icon}}">  </i>
+            {{i.name}}
+        </button>
+
+        <md-menu-content>
+            <md-menu-item ng-repeat=" j in i.son">
+                <md-button ng-click="j.func()">
+
+                    {{j.name}}
+                </md-button>
+            </md-menu-item>
+
+        </md-menu-content>
+    </md-menu>
+</md-menu-bar>

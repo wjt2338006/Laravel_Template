@@ -1,0 +1,118 @@
+<md-card>
+    <md-card-title>
+
+        <div layout="row" style="width:100%">
+
+            <div flex="100">
+                <div class="ui left action input mini">
+                    <div class="ui  action labeled input ">
+                        <input type="text" placeholder="start" ng-model="page.limit.$start" style="width: 50px">
+                        <div class="ui label">
+                            +
+                        </div>
+                        <input type="text" placeholder="num" ng-model="page.limit.$num" style="width: 50px">
+
+
+                        <input type="{{ v.type }}" placeholder="{{ v.name }}" ng-repeat="v in  params.inputFilter"
+                               ng-model="page.limit[v.key]">
+
+
+                        <select class="ui compact selection dropdown" ng-repeat="v in params.selectFilter"
+                                ng-options="i.value as i.name for i in v.option"
+                                ng-model="page.limit[v.key]"
+                        >
+                        </select>
+
+                        <button class="ui teal right labeled icon button" ng-click="getData()">
+                            <i class="search icon"></i>
+                            Search
+                        </button>
+
+                    </div>
+
+
+                </div>
+            </div>
+        </div>
+
+        <button class="ui teal basic button tiny" ng-click="toggleAdd('show')">Add</button>
+    </md-card-title>
+    <md-card-content>
+        <div class="ui segment" ng-if="!page.onload" style=";width:100%; height: 800px;opacity:0.9;" >
+            <div class="ui inverted  active dimmer" id="loading_dimmer">
+                <div class="ui text loader">Loading</div>
+            </div>
+        </div>
+        <md-table-container ng-if="page.onload">
+            <table class="ui celled padded table">
+                <thead>
+                <tr>
+                    <th ng-repeat="(row_key,row_value) in params.table" ng-bind="row_key"></th>
+                    <th>操作</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr ng-repeat="single in page.data ">
+                    <td ng-repeat="(row_key,row_value) in params.table" ng-bind="single[row_value]"></td>
+                    <td>
+                        <button class="ui icon button" ng-if="params.detail!=undefined" ng-click="params.detail(single[params.pk])">
+                            <i class="write icon"></i>
+                        </button>
+
+                        <button class="ui icon button red"  ng-if="params.delete_url!=undefined" ng-click="toggleDel('show',single[params.pk])">
+                            <i class="remove icon"></i>
+                        </button>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </md-table-container>
+
+    </md-card-content>
+
+    <div class="ui modal add" id="add_modal">
+        <i class="close icon"></i>
+        <div class="header">
+            添加
+        </div>
+        <div class="image content">
+
+            <md-input-container class="md-block" ng-repeat="i in params.add" flex-gt-sm>
+                <label>{{ i.name }}</label>
+                <input ng-model="add_data[i.key]" type="i.type">
+            </md-input-container>
+
+        </div>
+        <div class="actions">
+            <div class="ui black deny button" ng-click="toggleAddModal('hide')">
+                取消
+            </div>
+            <div class="ui positive right labeled icon button" ng-click="addRequest()">
+                提交
+                <i class="checkmark icon"></i>
+            </div>
+        </div>
+    </div>
+
+    <div class="ui modal add" id="del_modal">
+        <i class="close icon"></i>
+        <div class="header">
+            删除
+        </div>
+        <div class="image content">
+
+            <h2>你确定要删除吗？</h2>
+
+        </div>
+        <div class="actions">
+            <div class="ui black deny button" ng-click="toggleDel('hide')">
+                不
+            </div>
+            <div class="ui positive right labeled icon button" ng-click="delete(willDelId)">
+                是的
+                <i class="checkmark icon"></i>
+            </div>
+        </div>
+    </div>
+
+</md-card>

@@ -3,35 +3,6 @@
 @section('content')
 
 
-
-
-    {{--<div class="ui three column grid" ng-controller="LoginCtrl" >--}}
-        {{--<div class="row" style="position: absolute;width: 100%;height:100%;z-index: -1;"> <img src="/img/login_back.jpg" alt="" style="width:100%;height:100%"></div>--}}
-        {{--<div class="row" style="height:200px"> </div>--}}
-
-        {{--<div class="column"></div>--}}
-        {{--<div class="column">--}}
-            {{--<div class="ui fluid card" style="padding: 10px">--}}
-                {{--<h1 class="centered">登录</h1>--}}
-                {{--<form class="ui form ">--}}
-                    {{--<div class="field">--}}
-                        {{--<label>用户名</label>--}}
-                        {{--<input type="text"  ng-model="username" placeholder="Username">--}}
-                    {{--</div>--}}
-                    {{--<div class="field">--}}
-                        {{--<label>密码</label>--}}
-                        {{--<input type="password" ng-model="password" placeholder="Password">--}}
-                    {{--</div>--}}
-
-                    {{--<button class="ui button" type="submit" ng-click="login()">提交</button>--}}
-                {{--</form>--}}
-            {{--</div>--}}
-
-
-        {{--</div>--}}
-        {{--<div class="column"></div>--}}
-    {{--</div>--}}
-
     <div ng-controller="LoginCtrl"  layout="column" style="background:url('/img/login_back.jpg');height: 100%; background-repeat: no-repeat;background-size: cover;ackground-attachment: fixed;" >
         <div flex="25" ></div>
         <div flex="60" class="row" layout="row" >
